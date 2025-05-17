@@ -1,0 +1,27 @@
+@import 'top-header.pcss';
+
+.layout-marketing {
+  --color-header: var(--color-primary-darker);
+  --color-window-bg: var(--color-gray1);
+  --height-header-navbar: 45px;
+  --height-header: calc(var(--statusbar-height) + var(--height-header-navbar));
+  background: var(--color-window-bg);
+
+  > .main-wrapper {
+    --main-wrapper-margin: 0px;
+    background: var(--color-window-bg);
+    display: flex;
+    margin-right: var(--main-wrapper-margin);
+    margin-top: var(--main-wrapper-margin);
+
+    > main {
+      background: var(--color-main-bg);
+      height: calc(var(--dvh) - var(--height-header) - 2 * var(--main-wrapper-margin));
+      flex: 1;
+      opacity: 0.9;
+      transition: opacity 0.05s;
+      overflow-y: auto;
+      position: relative;
+    }
+  }
+}

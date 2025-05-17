@@ -1,0 +1,187 @@
+@import 'top-header.pcss';
+
+.layout-dashboard {
+  --color-header: var(--color-white);
+  --color-window-bg: var(--color-gray1);
+  --height-header-navbar: 45px;
+  --height-header: calc(var(--statusbar-height) + var(--height-header-navbar));
+  --height-footer: 60px; /* also controlled by .keyboard-open .layout-dashboard */
+  --height-main-wrapper: calc(var(--dvh) - var(--height-header));
+  --sidebar-width-full: 250px;
+  --sidebar-width-mini: 62px;
+  --sidebar-width: var(--sidebar-width-full);
+  background: var(--color-window-bg);
+  height: var(--dvh);
+
+  > .main-wrapper {
+    --height-main: calc(var(--height-main-wrapper) - 2 * var(--main-wrapper-margin));
+    --main-wrapper-margin: 10px;
+    background: var(--color-window-bg);
+    display: flex;
+    margin-right: var(--main-wrapper-margin);
+    margin-top: var(--main-wrapper-margin);
+    position: relative;
+
+    > aside {
+      background: var(--color-window-bg);
+      height: var(--height-main);
+      overflow-x: hidden;
+      padding: 8px 12px;
+      position: relative;
+      width: var(--sidebar-width);
+
+      > nav {
+        display: grid;
+        gap: 8px;
+        > a {
+          border-radius: 4px;
+          cursor: pointer;
+          display: grid;
+          gap: 16px;
+          grid-template-columns: auto 1fr;
+          padding: 12px 14px;
+          &.active,
+          &:hover {
+            background: var(--color-primary);
+          }
+        }
+      }
+
+      > .minimize {
+        border-radius: 4px;
+        color: var(--color-gray9);
+        inset: auto auto 0 auto;
+        padding: 10px;
+        position: absolute;
+        &:hover {
+          background: var(--color-primary);
+          color: var(--color-black);
+        }
+      }
+
+      &.mini {
+        --sidebar-width: var(--sidebar-width-mini);
+        > .minimize {
+          color: var(--color-black);
+          padding: 8px 20px 8px 8px;
+          margin: 8px;
+        }
+      }
+
+      @media (max-width: 62em) {
+        display: none;
+      }
+    }
+
+    > main {
+      background: var(--color-main-bg);
+      height: var(--height-main);
+      flex: 1;
+      opacity: 0;
+      transition: opacity 0.05s;
+      overflow-y: auto;
+      position: relative;
+
+      > .corners-wrapper {
+        > div {
+          position: absolute;
+          &:nth-of-type(1) {
+            inset: 0 auto auto 0;
+          }
+          &:nth-of-type(2) {
+            /* Is also controlled lower if body.scrollable */
+            inset: 0 calc(var(--main-wrapper-margin) - 1px) auto auto;
+          }
+          &:nth-of-type(3) {
+            /* Is also controlled lower if body.scrollable */
+            inset: auto calc(var(--main-wrapper-margin) - 1px)
+              calc(var(--main-wrapper-margin) - 1px) auto;
+          }
+          &:nth-of-type(4) {
+            inset: auto auto 10px 0;
+          }
+          > .icon {
+            position: fixed;
+            path {
+              fill: var(--color-window-bg);
+            }
+          }
+        }
+
+        @media (max-width: 62em) {
+          display: none;
+        }
+      }
+
+      @media (max-width: 62em) {
+        height: calc(var(--dvh) - var(--height-footer));
+      }
+    }
+
+    @media (max-width: 62em) {
+      --main-wrapper-margin: 0px;
+    }
+  }
+
+  > .bottom-footer {
+    > nav {
+      /* also controlled by .keyboard-open .layout-dashboard */
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+
+      > a {
+        align-items: center;
+        background: var(--color-gray2);
+        cursor: pointer;
+        display: grid;
+        height: var(--height-footer);
+        justify-content: center;
+        &:hover,
+        &.active {
+          background: var(--color-gray1);
+        }
+      }
+
+      @media (max-width: 62em) {
+        /* also controlled by .keyboard-open .layout-dashboard */
+        display: grid;
+      }
+    }
+  }
+
+  /** Swap to footer on mobile */
+  @media (max-width: 62em) {
+    > .top-header {
+      display: none;
+    }
+  }
+}
+
+.scrollable .layout-dashboard > .main-wrapper > main > .corners-wrapper {
+  > div:nth-of-type(2) {
+    inset: 0 0 auto auto;
+    svg {
+      height: 16px;
+      width: 16px;
+    }
+  }
+  > div:nth-of-type(3) {
+    inset: auto 0 16px auto;
+    svg {
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+
+.keyboard-open .layout-dashboard {
+  --height-footer: 0px;
+  > .bottom-footer {
+    display: none;
+  }
+  @media (max-width: 62em) {
+    > .bottom-footer {
+      display: none;
+    }
+  }
+}

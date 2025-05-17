@@ -1,0 +1,135 @@
+.toast {
+  --toast-color-info: #444;
+  --toast-color-success: green;
+  --toast-color-success: var(--color-success);
+  --toast-color-alert: orange;
+  --toast-color-alert: var(--color-alert);
+  --toast-color-danger: red;
+  --toast-color-danger: var(--color-danger);
+  position: fixed;
+  transition: all 1s linear;
+  z-index: 100;
+
+  &.animatedIn {
+    transition: right 0.06s linear;
+  }
+  &.animatedOut {
+    transition:
+      bottom 0.3s linear,
+      right 0.2s linear,
+      opacity 0.1s;
+  }
+  &.grow {
+    transform: scale(1.04);
+  }
+
+  & a,
+  & a:active {
+    color: white;
+    text-decoration: underline;
+  }
+  & a:active {
+    text-decoration: none;
+  }
+
+  & .message {
+    flex: 1;
+  }
+  & .message:last-child > :first-child {
+    margin-top: 0;
+  }
+  & .dismiss {
+    background: #ffffff33;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    padding: 4px;
+    margin-left: 20px;
+  }
+  & .dismiss:hover {
+    transform: scale(1.1);
+  }
+
+  & > div {
+    background: var(--toast-color-info);
+    border-radius: 6px;
+    color: #fff;
+    display: flex;
+    max-width: 330px;
+    margin: 0 auto;
+    padding: 15px 20px 15px 17px;
+    position: relative;
+    width: fit-content;
+  }
+
+  &.success > div {
+    background: var(--toast-color-success);
+  }
+  &.alert > div {
+    background: var(--toast-color-alert);
+  }
+  &.error > div {
+    background: var(--toast-color-danger);
+  }
+
+  & > div > div {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    gap: 10px;
+    text-align: left;
+  }
+
+  &[data-placement='bottom'] {
+    bottom: 10px;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    @media (max-width: 700px) {
+      bottom: 20px;
+    }
+    &._hidden {
+      bottom: -100px;
+    }
+
+    & > div {
+      max-width: 500px;
+      min-width: 230px;
+    }
+  }
+
+  &[data-placement='right'] {
+    border-radius: 6px;
+    right: 10px;
+    top: 70px;
+
+    @media (max-width: 700px) {
+      top: 10px;
+    }
+
+    &._hidden {
+      right: -330px;
+    }
+  }
+
+  &[data-placement='center'] {
+    left: 0;
+    top: 150px;
+    text-align: center;
+    width: 100%;
+    &._hidden {
+      opacity: 0;
+    }
+
+    & > div {
+      max-width: 500px;
+      min-width: 230px;
+      padding: 30px;
+
+      @media (max-width: 700px) {
+        padding: 20px;
+      }
+    }
+  }
+}
