@@ -1,5 +1,4 @@
 import {OnSubmit, SForm, SFormError, useSFormContext} from '@slimr/react'
-import {setPageMeta} from '@slimr/util'
 
 import {GenericError, InputBox} from '~/foundation'
 import {Layout} from '~/layout/layout-login'
@@ -10,7 +9,7 @@ import {router as r} from '~/router'
  * A demo of a login page
  */
 export default function Login() {
-  setPageMeta({title: 'Login'})
+  document.title = 'Login'
 
   const onSubmit: OnSubmit = async (_, vals) => {
     // Tips:
@@ -29,7 +28,7 @@ export default function Login() {
     }
 
     console.log('vals', vals)
-    r.goto(r.routes.stack1)
+    r.goto(r.routes.index)
   }
 
   return (

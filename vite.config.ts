@@ -37,6 +37,13 @@ const prodConfig: UserConfigExport = {
         main: resolve(__dirname, 'index.html'),
       },
       output: {
+        // Uncomment below to bundle as a single IIFE blob
+        format: 'iife', // Bundle as an IIFE (not a module)
+
+        // name: 'JiraLite', // Global variable name for your bundle
+        entryFileNames: 'bundle.js', // Always output as bundle.js
+        assetFileNames: '[name][extname]', // Keep asset names clean
+
         // Comment out manualChunks for default code-splitting
         /**
          * Manual chunks is a key/val or function that returns an answer
@@ -47,25 +54,25 @@ const prodConfig: UserConfigExport = {
          *
          * @returns {string | undefined} - The name of the chunk to place the module in or undefined to use default
          */
-        manualChunks: () => {
-          //   const fileNameNoExt = id.split('/').at(-1).split('.').slice(0, -1).join('.')
-          //   if (id.includes('@slimr/mdi-paths') && !id.includes('component')) {
-          //     return 'icons/' + fileNameNoExt
-          //   }
-          //   if (id.includes('highlight.js') && !id.includes('lazy')) {
-          //     return 'highlightjs'
-          //   }
-          //   // if (id.includes('@slimr')) {
-          //   //   return 'slimr'
-          //   // }
-          //   // if (id.includes('pages') && !id.includes('pages/index')) {
-          //   //   return 'pages/' + fileNameNoExt
-          //   // }
-          //   if (id.includes('workbox')) {
-          //     return 'workbox'
-          //   }
-          return 'main'
-        },
+        // manualChunks: id => {
+        //   //   const fileNameNoExt = id.split('/').at(-1).split('.').slice(0, -1).join('.')
+        //   //   if (id.includes('@slimr/mdi-paths') && !id.includes('component')) {
+        //   //     return 'icons/' + fileNameNoExt
+        //   //   }
+        //   //   if (id.includes('highlight.js') && !id.includes('lazy')) {
+        //   //     return 'highlightjs'
+        //   //   }
+        //   //   // if (id.includes('@slimr')) {
+        //   //   //   return 'slimr'
+        //   //   // }
+        //   //   // if (id.includes('pages') && !id.includes('pages/index')) {
+        //   //   //   return 'pages/' + fileNameNoExt
+        //   //   // }
+        //   //   if (id.includes('workbox')) {
+        //   //     return 'workbox'
+        //   //   }
+        //   return 'main'
+        // },
       },
     },
   },

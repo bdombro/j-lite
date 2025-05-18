@@ -13,7 +13,7 @@ chrome.action.onClicked.addListener(tab => {
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'loading') {
-    if (tab.url && tab.url.includes('jira-lite')) {
+    if (tab.url && tab.url.includes('atlassian.net/jira-lite')) {
       injectJiraLite(tabId)
     }
   }
