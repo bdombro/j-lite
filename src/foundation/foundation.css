@@ -1,6 +1,45 @@
-@custom-selector :--heading h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6;
-
 /* Colors */
+
+/* fira-code-300 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/fira-code-v27-latin-300.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* fira-code-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/fira-code-v27-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* fira-code-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/fira-code-v27-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* fira-code-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/fira-code-v27-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* fira-code-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/fira-code-v27-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
 
 :root {
   --color-primary: hsl(215, 100%, 30%);
@@ -24,6 +63,12 @@
   --color-gray7: hsl(0, 0%, 46%);
   --color-gray8: hsl(0, 0%, 34%);
   --color-gray9: hsl(0, 0%, 26%);
+  --color-gray10: hsl(0, 0%, 20%);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    'Helvetica Neue', sans-serif;
+  --font-monospace: 'Fira Code', monospace;
+  --font-serif: Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', Georgia, serif;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
@@ -41,6 +86,7 @@
     --color-gray7: hsl(0, 0%, 54%);
     --color-gray8: hsl(0, 0%, 66%);
     --color-gray9: hsl(0, 0%, 74%);
+    --color-gray10: hsl(0, 0%, 85%);
     --color-main-bg: #111;
     --color-main-fg: white;
   }
@@ -52,20 +98,36 @@
 }
 
 /** Typography */
+/* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,18,1.25,6,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
 :root {
-  /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1240,20,1.25,6,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-  --step--2: clamp(0.7rem, calc(0.7rem + 0.03vw), 0.8rem);
-  --step--1: clamp(0.9rem, calc(0.9rem + 0.1vw), 1rem);
-  --step-0: clamp(1.1rem, calc(1.1rem + 0.25vw), 1.3rem);
-  --step-1: clamp(1.3rem, calc(1.3rem + 0.4vw), 1.6rem);
-  --step-2: clamp(1.6rem, calc(1.5rem + 0.6vw), 2rem);
-  --step-3: clamp(2rem, calc(1.8rem + 0.9vw), 2.4rem);
-  --step-4: clamp(2.3rem, calc(2.1rem + 1.3vw), 3rem);
-  --step-5: clamp(2.8rem, calc(2.5rem + 1.8vw), 3.8rem);
-  --step-6: clamp(3.3rem, calc(2.9rem + 2.5vw), 4.7rem);
+  --step--2: clamp(0.6944rem, 0.6856rem + 0.0444vw, 0.72rem);
+  --step--1: clamp(0.8333rem, 0.8101rem + 0.1159vw, 0.9rem);
+  --step-0: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.1283rem + 0.3587vw, 1.4063rem);
+  --step-2: clamp(1.44rem, 1.3295rem + 0.5527vw, 1.7578rem);
+  --step-3: clamp(1.728rem, 1.5648rem + 0.8161vw, 2.1973rem);
+  --step-4: clamp(2.0736rem, 1.8395rem + 1.1704vw, 2.7466rem);
+  --step-5: clamp(2.4883rem, 2.1597rem + 1.6433vw, 3.4332rem);
+  --step-6: clamp(2.986rem, 2.5319rem + 2.2705vw, 4.2915rem);
 }
 
-:--heading,
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  margin: 0;
+  padding: 0.6em 0 0.3em;
+}
+
 p {
   margin: 0;
   padding: 0.7em 0 0.5em;
@@ -118,7 +180,7 @@ p,
 
   /**
     * Status bar is the upper bar showing time, battery, etc on mobile devices.
-    * 
+    *
     * When the app is running in a browser, the content is rendered below the
     * status bar. But in capacitor, the content is rendered behind the status
     * bar. So we track the platform and set a CSS variable to adjust the layout
@@ -264,13 +326,29 @@ p,
 
 * {
   box-sizing: border-box;
-  line-height: 1em;
+  line-height: 1.4em;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  line-height: 1.4em;
 }
 
 body {
   font-size: var(--step-0);
   background: var(--color-main-bg);
   color: var(--color-main-fg);
+  font-family: var(--font-monospace);
   margin: 0;
   overflow: hidden;
 }

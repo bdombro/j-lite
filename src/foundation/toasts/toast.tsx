@@ -1,4 +1,4 @@
-import './toast.pcss'
+import './toast.css'
 
 import {useEvent} from '@slimr/react'
 import {memo} from 'react'

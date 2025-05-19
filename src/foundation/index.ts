@@ -1,4 +1,4 @@
-import './foundation.pcss'
+import './foundation.css'
 
 import './polyfills'
 

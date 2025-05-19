@@ -10,7 +10,7 @@
     "declarativeNetRequestWithHostAccess"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "https://*.atlassian.net/*"
   ],
   "background": {
     "service_worker": "j-lite-ext-sw.js"
@@ -21,7 +21,7 @@
   "web_accessible_resources": [
     {
       "resources": ["main.js", "main.css"],
-      "matches": ["<all_urls>"]
+      "matches": ["https://*.atlassian.net/*"]
     }
   ],
   "declarative_net_request": {

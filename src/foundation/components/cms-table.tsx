@@ -1,4 +1,4 @@
-import './cms-table.pcss'
+import './cms-table.css'
 
 import {useMedia, UseSet2, useSet2} from '@slimr/react'
 import {useLocationChangedCb} from '@slimr/router'

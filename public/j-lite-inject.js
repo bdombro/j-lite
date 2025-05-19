@@ -1,6 +1,9 @@
-if (!window.location.href.includes('j-lite')) {
-  window.location.href =
-    'https://underarmour.atlassian.net/j-lite?from=' + encodeURIComponent(window.location.href)
+const JLITE_PATH_PREFIX = '/j-lite'
+
+if (!window.location.pathname.startsWith(JLITE_PATH_PREFIX)) {
+  const nextUrl = new URL(`${window.location.origin}${JLITE_PATH_PREFIX}`)
+  nextUrl.searchParams.set('from', window.location.href)
+  window.location.href = nextUrl.toString()
 }
 
 async function load() {

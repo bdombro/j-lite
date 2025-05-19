@@ -1,4 +1,4 @@
-import './layout-dashboard.pcss'
+import './layout-dashboard.css'
 
 import {router as r} from '~/router'
 

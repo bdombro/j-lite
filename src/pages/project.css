@@ -1,0 +1,108 @@
+.project-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.project-page__hero,
+.project-page__section {
+  background: var(--color-main-bg);
+  border: 1px solid var(--color-gray3);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.project-page__hero {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-page__hero-row {
+  align-items: start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.project-page__hero-copy > h1,
+.project-page__filter-summary > h2,
+.project-page .page-section h2 {
+  padding-top: 0;
+}
+
+.project-page__lede {
+  color: var(--color-gray8);
+  font-size: var(--step-0);
+}
+
+.project-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.project-page__actions > a,
+.project-page__secondary-button {
+  align-items: center;
+  border-radius: 4px;
+  display: inline-flex;
+  font-weight: 700;
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+}
+
+.project-page__actions > a {
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: var(--color-black);
+}
+
+.project-page__actions > a:hover {
+  background: var(--color-primary-darker);
+  border-color: var(--color-primary-darker);
+  color: var(--color-black);
+}
+
+.project-page__secondary-button {
+  background: var(--color-main-bg);
+  border: 1px solid var(--color-gray5);
+  color: var(--color-main-fg);
+}
+
+.project-page__secondary-button:hover {
+  border-color: var(--color-primary);
+}
+
+.project-page__filter-summary {
+  background: var(--color-gray1);
+  border: 1px solid var(--color-gray3);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+}
+
+.project-page__filter-summary > p:last-child {
+  color: var(--color-gray8);
+  font-size: var(--step--1);
+  overflow-wrap: anywhere;
+}
+
+.project-page .page-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-page .section-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+@media (max-width: 40em) {
+  .project-page__hero-row {
+    flex-direction: column;
+  }
+}

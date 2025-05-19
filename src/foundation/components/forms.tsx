@@ -1,4 +1,4 @@
-import './forms.pcss'
+import './forms.css'
 
 import {
   classJoin,

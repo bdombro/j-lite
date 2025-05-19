@@ -1,3 +1,5 @@
+import {buildIssueHref} from '~/util/jira/url'
+
 import {Logo} from './logo'
 
 export function TopHeader({
@@ -15,6 +17,7 @@ export function TopHeader({
       <div className="navbar">
         {left}
         <nav className="right">
+          <IssueJumpForm />
           {right}
           {burger && (
             <a
@@ -53,7 +56,36 @@ export function NavA(p: AProps) {
   )
 }
 
-export function NavLogo({href = '/'}) {
+function IssueJumpForm() {
+  const [value, setValue] = useState('')
+  return (
+    <form
+      className="issue-jump"
+      onSubmit={e => {
+        e.preventDefault()
+        const key = value.trim().toUpperCase()
+        if (/^[A-Z][A-Z0-9_]+-\d+$/.test(key)) {
+          setValue('')
+          location.href = buildIssueHref(key)
+        }
+      }}
+    >
+      <input
+        aria-label="Go to issue"
+        className="issue-jump__input"
+        onChange={e => setValue((e.target as HTMLInputElement).value)}
+        placeholder="Jump to issue…"
+        type="text"
+        value={value}
+      />
+      <button aria-label="Go" className="issue-jump__button" type="submit">
+        <Icon name="arrowR" size={18} />
+      </button>
+    </form>
+  )
+}
+
+export function NavLogo({href = '/j-lite'}) {
   return (
     <a className="logo" href={href}>
       <Logo height="100%" />

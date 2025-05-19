@@ -1,10 +1,17 @@
-/* eslint-disable require-jsdoc */
+import type {Meta, StoryObj} from '@storybook/react'
+
 import Index from './index'
 
-export default {
+const meta = {
   component: Index,
-}
+  parameters: {
+    layout: 'fullscreen',
+  },
+  title: 'Pages/Home',
+} satisfies Meta<typeof Index>
 
-export function Index1() {
-  return <Index />
-}
+export default meta
+
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {}

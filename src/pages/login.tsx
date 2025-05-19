@@ -28,24 +28,25 @@ export default function Login() {
     }
 
     console.log('vals', vals)
-    r.goto(r.routes.index)
+    r.goto(r.routes.dashboard)
   }
 
   return (
     <Layout>
       <Layout.Section>
-        <a href={r.routes.index.path} title="go home">
-          <Logo height={70} _mb={20} />
-        </a>
-        <SForm onSubmit={onSubmit}>
-          <InputBox autoFocus label="email" name="email" required type="email" />
-          <InputBox label="password" name="password" required type="password" />
-          <br />
-          <FormFooter />
-          <P className="small" _textAlign="center">
-            Click <a href={r.routes.login.path}>here</a> to register
-          </P>
-        </SForm>
+        <div className="login-page">
+          <a className="login-page__home" href={r.routes.dashboard.path} title="go home">
+            <Logo height={70} _mb={20} />
+          </a>
+          <SForm className="login-page__form" onSubmit={onSubmit}>
+            <InputBox autoFocus label="email" name="email" required type="email" />
+            <InputBox label="password" name="password" required type="password" />
+            <FormFooter />
+            <P className="small login-page__footer">
+              Go back to the <a href={r.routes.dashboard.path}>dashboard</a>
+            </P>
+          </SForm>
+        </div>
       </Layout.Section>
     </Layout>
   )
@@ -57,7 +58,7 @@ const FormFooter = () => {
   return (
     <>
       <GenericError error={rejected && 'Issues found. Please correct and retry.'} />
-      <button className="md" style={{width: '100%'}} type="submit">
+      <button className="login-page__submit md" type="submit">
         {accepted ? 'Success!' : submitting ? 'Submitting...' : 'Login'}
       </button>
     </>
