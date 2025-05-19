@@ -287,7 +287,7 @@ globalThis.classJoin = _styled.classJoin
 globalThis.styled = _styled.styled
 
 globalThis.A = (p: _styled.AProps) => {
-  return _styled.A({
+  return (_styled.A as sany).render({
     ...p,
     className: classJoin(p.className, location.href.includes(p.href!) ? 'active' : ''),
   })
