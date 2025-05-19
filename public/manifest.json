@@ -10,5 +10,11 @@
   },
   "action": {
     "default_title": "Inject JS"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["main.js", "main.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

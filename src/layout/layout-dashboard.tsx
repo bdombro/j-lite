@@ -21,7 +21,7 @@ export function Layout({children}: {children: React.ReactNode}) {
             </BurgerIconA>
           </>
         }
-        left={<NavLogo href={r.routes.stack1.path} />}
+        left={<NavLogo href={r.routes.index.path} />}
       />
       <div className="main-wrapper">
         <Sidebar />
@@ -74,7 +74,6 @@ function Footer() {
   return (
     <footer className="bottom-footer">
       <nav>
-        <FooterIconA href={r.routes.stack1.path} icon="building" title="Stacks example" />
         <FooterIconA href="/#account" icon="account" title="Account" />
         <FooterIconA href={r.routes.login.path} icon="login" title="Log in" />
       </nav>
@@ -95,9 +94,6 @@ function Sidebar() {
   return (
     <aside className={isMini ? 'mini' : undefined}>
       <nav>
-        <SidebarIconA href={r.routes.stack1.path} icon="building">
-          Stack
-        </SidebarIconA>
         <SidebarIconA href="/#account" icon="account">
           Account
         </SidebarIconA>

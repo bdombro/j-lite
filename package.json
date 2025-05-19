@@ -9,9 +9,7 @@
     "url": "https://github.com/bdombro/preact-template.git"
   },
   "scripts": {
-    "build": "run-s build:*",
-    "build:vite": "vite build",
-    "build:merge": "cat dist/bundle.js >> dist/jira-lite-inject.js && echo '\n}' >> dist/jira-lite-inject.js",
+    "build": "vite build",
     "clean": "rm -rf dist",
     "format": "prettier --cache -w .",
     "lint": "tsc && eslint . --cache --cache-location=node_modules/.eslintcache && prettier --check .",
