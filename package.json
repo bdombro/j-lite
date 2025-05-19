@@ -9,7 +9,7 @@
     "url": "https://github.com/bdombro/j-lite.git"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && echo '\nbody {visibility:hidden}' >> dist/main.css",
     "build:storybook": "storybook build",
     "build:watch": "npx nodemon --watch src -e js,jsx,ts,tsx,css,pcss --exec 'npm run build'",
     "clean": "rm -rf dist",

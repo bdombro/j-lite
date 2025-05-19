@@ -1,11 +1,3 @@
-/*
-
-default page: recent projects
-project page
-issue page
-
-*/
-
 if (!window.location.href.includes('j-lite')) {
   window.location.href =
     'https://underarmour.atlassian.net/j-lite?from=' + encodeURIComponent(window.location.href)
@@ -25,18 +17,9 @@ async function load() {
     script.type = 'module'
     document.body.appendChild(script)
   })()
-  document.body.style.display = 'block'
+  document.body.style.visibility = 'visible'
 }
 
-if (!document.body.classList.contains('j-lite')) {
-  document.body.style.display = 'none'
-}
-;(() => {
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = chrome.runtime.getURL('main.css')
-    document.head.appendChild(link)
-  })()
 if (document.readyState === 'complete') {
   load()
 } else {

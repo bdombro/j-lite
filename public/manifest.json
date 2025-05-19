@@ -3,8 +3,15 @@
   "name": "J-Lite",
   "version": "1.0",
   "description": "A lightweight ('lite') Jira project and issue browser",
-  "permissions": ["scripting", "activeTab"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "j-lite-ext-sw.js"
   },
@@ -16,5 +23,14 @@
       "resources": ["main.js", "main.css"],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
 }
