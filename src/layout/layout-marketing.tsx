@@ -1,5 +1,7 @@
 import './layout-marketing.pcss'
 
+import {useNetworkState} from '@slimr/react'
+
 import {router as r} from '~/router'
 
 import {BurgerIconA, NavA, TopHeader} from './top-header'
@@ -29,6 +31,7 @@ export function Layout({children}: {children: React.ReactNode}) {
         }
         right={
           <>
+            <OfflinePill />
             <NavA href={r.routes.index.path}>Home</NavA>
             <NavA href={r.routes.about.path}>About</NavA>
             <NavA href={r.routes.login.path}>Login</NavA>
@@ -53,5 +56,38 @@ Layout.Section = function LayoutSection({
         {children}
       </Div>
     </Section>
+  )
+}
+
+function OfflinePill() {
+  const {online} = useNetworkState()
+  if (online) return null
+  const fontSize = '.7em'
+  return (
+    <div
+      // TODO: maybe move these styles to a CSS file and maybe preact-template
+      className="network-state"
+      style={{
+        alignItems: 'center',
+        background: 'var(--color-primary)',
+        borderRadius: '.5em',
+        display: 'inline-flex',
+        fontSize,
+        gap: '.5em',
+        marginRight: '1em',
+        padding: '.5em',
+      }}
+    >
+      <div
+        className="circle"
+        style={{
+          backgroundColor: 'var(--color-alert)',
+          width: fontSize,
+          height: fontSize,
+          borderRadius: '50%',
+        }}
+      ></div>
+      Offline
+    </div>
   )
 }
