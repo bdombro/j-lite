@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "build:storybook": "storybook build",
     "build:watch": "npx nodemon --watch src -e js,jsx,ts,tsx,css,pcss --exec 'npm run build'",
     "clean": "rm -rf dist",
     "format": "prettier --cache -w .",
@@ -19,7 +20,8 @@
     "preinstall": "echo npm run precommit > .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit",
     "preview": "vite preview",
     "update": "npx npm-check-updates",
-    "start": "vite"
+    "start": "vite",
+    "storybook": "storybook dev -p 6006"
   },
   "engines": {
     "node": ">=16.13.0"
@@ -41,6 +43,13 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.8.1",
+    "@storybook/addon-essentials": "^7.6.7",
+    "@storybook/addon-interactions": "^7.6.7",
+    "@storybook/addon-links": "^7.6.7",
+    "@storybook/addon-mdx-gfm": "^7.6.7",
+    "@storybook/blocks": "^7.6.7",
+    "@storybook/react": "^7.6.7",
+    "@storybook/react-vite": "^7.6.7",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20.10.6",
     "@types/react": "^18.2.46",
@@ -60,6 +69,7 @@
     "prettier": "^3.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "storybook": "7.6.7",
     "typescript": "^5.3.3",
     "vite": "^5.0.10"
   },
