@@ -12,5 +12,16 @@
       "urlFilter": "https://*.atlassian.net/static-assets/metal-all.css",
       "resourceTypes": ["stylesheet"]
     }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "https://*.atlassian.net/static-assets/metal-all.js",
+      "resourceTypes": ["script"]
+    }
   }
 ]
