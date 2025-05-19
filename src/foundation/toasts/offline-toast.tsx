@@ -2,6 +2,10 @@ import {toast} from './toast'
 
 /**
  * This component will show a toast when the user goes on and offline
+ *
+ * Note: the icon will be broken when this app is running in dev mode because
+ * the icon is not pre-cached, but works in production mode because it is included
+ * in previously loaded bundle(s)
  */
 export function OfflineToast() {
   useEffect(() => {

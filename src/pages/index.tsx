@@ -14,7 +14,17 @@ export default function Index() {
     <Layout>
       <Layout.Section>
         <h1>Jira Lite</h1>
-        <p>coming soon...</p>
+        <p>TODOs:</p>
+        <ol>
+          <li>Branding</li>
+          <li>Login</li>
+          <li>Dashboard</li>
+          <li>Project</li>
+          <li>Issue</li>
+          <li>Search</li>
+          <li>Settings</li>
+          <li>Offline</li>
+        </ol>
       </Layout.Section>
     </Layout>
   )
