@@ -40,7 +40,7 @@ const prodConfig: UserConfigExport = {
         // Uncomment below to bundle as a single IIFE blob
         // format: 'iife', // Bundle as an IIFE (not a module)
 
-        // name: 'JiraLite', // Global variable name for your bundle
+        // name: 'J-Lite', // Global variable name for your bundle
         entryFileNames: 'main.js', // Always output as bundle.js
         assetFileNames: '[name][extname]', // Keep asset names clean
 

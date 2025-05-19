@@ -1,12 +1,12 @@
 {
-  "name": "preact-template",
-  "description": "The tiny 16kb preact app that could",
+  "name": "j-lite",
+  "description": "A lightweight ('lite') Jira project and issue browser",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bdombro/preact-template.git"
+    "url": "https://github.com/bdombro/j-lite.git"
   },
   "scripts": {
     "build": "vite build",

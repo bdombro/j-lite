@@ -9,15 +9,15 @@ export const router = new Router(
   {
     index: {
       component: Index,
-      path: '/jira-lite',
+      path: '/j-lite',
     },
     about: {
       component: About,
-      path: '/jira-lite/about',
+      path: '/j-lite/about',
     },
     login: {
       component: Login,
-      path: '/jira-lite/login',
+      path: '/j-lite/login',
     },
     notFound: {
       exact: false,

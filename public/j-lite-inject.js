@@ -6,16 +6,16 @@ issue page
 
 */
 
-if (!window.location.href.includes('jira-lite')) {
+if (!window.location.href.includes('j-lite')) {
   window.location.href =
-    'https://underarmour.atlassian.net/jira-lite?from=' + encodeURIComponent(window.location.href)
+    'https://underarmour.atlassian.net/j-lite?from=' + encodeURIComponent(window.location.href)
 }
 
 async function load() {
-  if (document.body.classList.contains('jira-lite')) return
-  console.debug('loading jira-lite')
-  document.body.classList.add('jira-lite')
-  document.title = 'Jira Lite'
+  if (document.body.classList.contains('j-lite')) return
+  console.debug('loading j-lite')
+  document.body.classList.add('j-lite')
+  document.title = 'J-Lite'
   document.body.innerHTML = `
     <div id="root"></div>
   `
@@ -28,7 +28,7 @@ async function load() {
   document.body.style.display = 'block'
 }
 
-if (!document.body.classList.contains('jira-lite')) {
+if (!document.body.classList.contains('j-lite')) {
   document.body.style.display = 'none'
 }
 ;(() => {

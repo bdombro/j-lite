@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Inject JS on Click",
+  "name": "J-Lite",
   "version": "1.0",
-  "description": "Injects JavaScript into the current page when the extension icon is clicked.",
+  "description": "A lightweight ('lite') Jira project and issue browser",
   "permissions": ["scripting", "activeTab"],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "jira-lite-ext-sw.js"
+    "service_worker": "j-lite-ext-sw.js"
   },
   "action": {
     "default_title": "Inject JS"

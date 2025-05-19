@@ -1,7 +1,7 @@
 function injectJiraLite(tabId) {
   chrome.scripting.executeScript({
     target: {tabId: tabId},
-    files: ['jira-lite-inject.js'],
+    files: ['j-lite-inject.js'],
   })
 }
 
@@ -13,7 +13,7 @@ chrome.action.onClicked.addListener(tab => {
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'loading') {
-    if (tab.url && tab.url.includes('atlassian.net/jira-lite')) {
+    if (tab.url && tab.url.includes('atlassian.net/j-lite')) {
       injectJiraLite(tabId)
     }
   }
