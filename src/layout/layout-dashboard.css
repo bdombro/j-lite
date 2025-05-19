@@ -1,4 +1,4 @@
-@import 'top-header.pcss';
+@import 'top-header.css';
 
 .layout-dashboard {
   --color-header: var(--color-white);

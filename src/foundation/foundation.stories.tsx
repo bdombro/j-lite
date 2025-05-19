@@ -1,4 +1,4 @@
-import './foundation.stories.pcss'
+import './foundation.stories.css'
 
 import {SForm, SFormError, useSFormContext} from '@slimr/react'
 

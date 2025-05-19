@@ -1,4 +1,4 @@
-import './layout-marketing.pcss'
+import './layout-marketing.css'
 
 import {useNetworkState} from '@slimr/react'
 
@@ -15,26 +15,19 @@ export function Layout({children}: {children: React.ReactNode}) {
       <TopHeader
         burger={
           <>
-            <BurgerIconA href={r.routes.index.path} icon="home">
-              Home
+            <BurgerIconA href={r.routes.dashboard.path} icon="home">
+              Dashboard
             </BurgerIconA>
             <BurgerIconA href={r.routes.about.path} icon="info">
               About
-            </BurgerIconA>
-            <BurgerIconA href="/#about" icon="building">
-              About
-            </BurgerIconA>
-            <BurgerIconA href={r.routes.login.path} icon="login">
-              Login
             </BurgerIconA>
           </>
         }
         right={
           <>
             <OfflinePill />
-            <NavA href={r.routes.index.path}>Home</NavA>
+            <NavA href={r.routes.dashboard.path}>Dashboard</NavA>
             <NavA href={r.routes.about.path}>About</NavA>
-            <NavA href={r.routes.login.path}>Login</NavA>
           </>
         }
       />

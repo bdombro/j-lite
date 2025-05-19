@@ -1,4 +1,4 @@
-@import 'top-header.pcss';
+@import 'top-header.css';
 
 .layout-marketing {
   --color-header: var(--color-gray5);
