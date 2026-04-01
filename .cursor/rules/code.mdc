@@ -1,0 +1,72 @@
+---
+description: Code patterns and conventions for J-Lite
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Code Conventions
+
+## File Organization
+
+| Directory | Purpose |
+|-----------|---------|
+| `src/pages/` | Route-level screens — one default-exported component per file |
+| `src/components/` | Reusable UI — named exports, re-exported via `components/index.ts` |
+| `src/layout/` | Shell layouts and header |
+| `src/foundation/` | Global CSS, polyfills, shared primitives (toasts, forms, cms-table) |
+| `src/util/jira/` | Jira API, caching, hooks, URL helpers, types |
+
+Files are **kebab-case** (`issue-table.tsx`, `layout-dashboard.css`). CSS is colocated next to its component/page.
+
+## Components
+
+- Functional components only. Use `function` declarations (not arrow components) for pages and shared components.
+- **Pages**: `export default function PageName(...)` — the router expects default exports.
+- **Components**: `export function ComponentName(...)` — named exports, added to the barrel in `src/components/index.ts`.
+- Type props inline on the parameter: `({issues}: {issues: JiraIssueListItem[]})`.
+
+## Imports
+
+Prettier auto-sorts imports into groups (configured via `@trivago/prettier-plugin-sort-imports`):
+
+1. `.css` (colocated stylesheet — always first)
+2. `polyfills`
+3. Third-party packages
+4. `~/...` alias paths (resolves to `src/`)
+5. Relative `./` imports
+
+Import shared components from the barrel: `import {IssueTable, StateNotice} from '~/components'`.
+
+## Preact / React Compat
+
+- App code imports hooks and types from `'react'` — Vite aliases this to `preact/compat`.
+- Only `src/main.tsx` imports directly from `'preact'` (for `render`).
+- Foundation polyfills expose `useState`, `useEffect`, `useRef`, `useMemo`, and styled primitives (`A`, `Div`, `Section`, `Icon`, `classJoin`) as globals. Some files use these without explicit imports — this is intentional.
+- `eslint react/jsx-no-undef: off` supports the global JSX pattern.
+
+## TypeScript
+
+- `strict: true` is enabled.
+- Public Jira data shapes use `interface` (in `src/util/jira/types.ts`).
+- Internal/local types use `type`.
+- A global `sany` type exists as an escape hatch — use sparingly.
+
+## Data Fetching
+
+- Jira REST calls go through `jiraFetchJson` in `src/util/jira/api.ts` (same-origin `fetch` with `credentials: 'include'`).
+- Pages consume data via `useCachedQuery` from `src/util/jira/hooks.ts` — it reads localStorage first (instant paint), then refetches from the network.
+- Cache keys live under the `j-lite:v1` prefix in localStorage.
+
+## Loading / Error / Empty States
+
+- Wrap data-dependent sections with `<StateNotice>` — it handles loading, error, and "last synced" display.
+- Empty lists use the `<EmptyState>` component.
+- Guard on query result presence with conditional render (`{data ? <...> : null}`).
+
+## Formatting (enforced by Prettier)
+
+- No semicolons
+- Single quotes
+- No bracket spacing (`{foo}` not `{ foo }`)
+- `arrowParens: avoid`
+- `printWidth: 100`
