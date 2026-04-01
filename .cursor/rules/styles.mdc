@@ -1,0 +1,100 @@
+---
+description: CSS styling conventions for J-Lite pages and components
+globs: "**/*.{css}"
+alwaysApply: false
+---
+
+# CSS Styling Conventions
+
+## Architecture
+
+- Plain CSS files colocated with their component/page (e.g. `project.tsx` + `project.css`).
+- No CSS modules, no CSS-in-JS, no Tailwind. All styling uses vanilla CSS with BEM-like class names.
+- Global design tokens and base element styles live in `src/foundation/foundation.css`.
+
+## Naming
+
+Every page/component owns a root class and uses double-underscore for descendants:
+
+```
+.project-page              /* root */
+.project-page__hero        /* descendant */
+.project-page__hero-row    /* deeper descendant (hyphen, not nested __) */
+```
+
+Pages use `<page-name>-page` (e.g. `dashboard-page`, `issue-page`).
+Components use their own name (e.g. `info-grid`, `issue-table`, `linked-issues-table`).
+
+## Design Tokens
+
+Always reference CSS custom properties from `:root` — never hard-code colors, font sizes, or font families.
+
+Key token families:
+- **Colors**: `--color-primary`, `--color-gray1`..`--color-gray9`, `--color-main-bg`, `--color-main-fg`
+- **Type scale** (fluid clamp): `--step--2` through `--step-6`
+- **Fonts**: `--font-monospace` (body default), `--font-sans`, `--font-serif`
+- **Buttons**: `--button-border-radius`, `--button-shadow-color`
+
+Dark mode is handled via `@media (prefers-color-scheme: dark)` overrides inside `:root` — do not add a separate dark theme class.
+
+## Recurring Layout Patterns
+
+Pages follow a consistent card-stack layout. When creating a new page or section:
+
+```css
+.example-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.example-page__hero,
+.example-page__section {
+  background: var(--color-main-bg);
+  border: 1px solid var(--color-gray3);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+```
+
+Inset panels (metadata, filters) use the lighter card style:
+
+```css
+background: var(--color-gray1);
+border: 1px solid var(--color-gray3);
+border-radius: 8px;
+padding: 1rem 1.1rem;
+```
+
+Responsive stacking at `max-width: 40em`:
+
+```css
+@media (max-width: 40em) {
+  .example-page__hero-row { flex-direction: column; }
+}
+```
+
+## Buttons
+
+- Solid buttons: use the global `button` / `.button` styles from `foundation.css`. Variants via `.secondary`, `.tertiary`, `.ghost`.
+- Page-specific CTA/secondary buttons repeat a shared pattern — keep these consistent:
+
+```css
+align-items: center;
+border-radius: 4px;
+display: inline-flex;
+font-weight: 700;
+min-height: 2.75rem;
+padding: 0.65rem 1rem;
+text-decoration: none;
+```
+
+## Tables
+
+Use the `issue-table` pattern: full-width, `border-collapse: collapse`, uppercase `th` labels (`--step--1`, `letter-spacing: 0.03em`), `--color-gray3` row borders, hover row highlight with `--color-gray1`.
+
+## Typography in Components
+
+- Muted/secondary text: `color: var(--color-gray8)`.
+- Labels/captions: `font-size: var(--step--1); font-weight: 700; text-transform: uppercase`.
+- Never set `font-family` on individual components — the body inherits `--font-monospace`.
