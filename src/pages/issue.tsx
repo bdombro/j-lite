@@ -67,7 +67,11 @@ export default function IssuePage({route}: {route: RouteMatch}) {
                 ) : null}
               </div>
               <div className="issue-page__actions">
-                {issue.data ? <a href={`/browse/${issue.data.key}`}>Open in Jira</a> : null}
+                {issue.data ? <a href="#" onClick={(e) => {
+                  e.preventDefault()
+                  window.open(`/browse/${issue.data!.key}`, '_self')
+                }
+                }>Open in Jira</a> : null}
                 <button
                   className="issue-page__secondary-button"
                   onClick={issue.refresh}

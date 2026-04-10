@@ -37,7 +37,8 @@ export function parseSourceHref(fromHref?: string) {
 
   try {
     const parsed = new URL(fromHref, location.origin)
-    const browseMatch = parsed.pathname.match(/^\/browse\/([A-Z][A-Z0-9_]+-\d+)$/i)
+    const path = parsed.pathname.replace(/\/+$/, '') || '/'
+    const browseMatch = path.match(/^\/browse\/([A-Z][A-Z0-9_]+-\d+)$/i)
     if (browseMatch) {
       const issueKey = browseMatch[1].toUpperCase()
       return {
@@ -48,7 +49,7 @@ export function parseSourceHref(fromHref?: string) {
       }
     }
 
-    const projectMatch = parsed.pathname.match(/^\/jira\/software\/projects\/([^/]+)/i)
+    const projectMatch = path.match(/^\/jira\/software\/projects\/([^/]+)/i)
     if (projectMatch) {
       const projectKey = projectMatch[1].toUpperCase()
       return {

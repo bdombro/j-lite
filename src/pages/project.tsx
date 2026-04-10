@@ -6,7 +6,9 @@ import {useEffect} from 'react'
 import {IssueTable, PageSection, StateNotice} from '~/components'
 import {Layout} from '~/layout/layout-marketing'
 import {
+  buildJiraSoftwareProjectUrl,
   buildProjectHref,
+  fullPageSameOriginIfNotJLite,
   getBootstrapData,
   getProjectPageData,
   getQuickFilterJql,
@@ -68,7 +70,11 @@ export default function ProjectPage({route}: {route: RouteMatch}) {
                     Current User
                   </a>
                 ) : null}
-                {projectKey ? <a href={`/browse/${projectKey}`}>Open in Jira</a> : null}
+                {projectKey ? <a href="#" onClick={(e) => {
+                  e.preventDefault()
+                  window.open(`/browse/${projectKey}`, '_self')
+                }
+                }>Open in Jira</a> : null}
                 <button
                   className="project-page__secondary-button"
                   onClick={project.refresh}
