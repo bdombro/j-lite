@@ -22,19 +22,54 @@ export const storyProject = {
   projectTypeKey: 'software',
 }
 
+/** Assignee payload for Brian — used for user-page JQL (`accountId`) and name links. */
+export const storyAssigneeBrian = {
+  accountId: storyCurrentUser.accountId,
+  displayName: storyCurrentUser.displayName,
+  emailAddress: storyCurrentUser.emailAddress,
+}
+
+const storyAssigneeToney = {
+  accountId: 'toney-user',
+  displayName: 'Toney Sebastian',
+  emailAddress: 'toney@example.com',
+}
+
+const storyAssigneeQa = {
+  accountId: 'qa-user',
+  displayName: 'QA User',
+  emailAddress: 'qa@example.com',
+}
+
+type StoryAssignee =
+  | string
+  | null
+  | {accountId?: string; displayName: string; emailAddress?: string}
+
 /** Builds minimal REST-shaped issue objects for lists, links, and story data. */
 function makeIssue(
   key: string,
   summary: string,
   status: string,
-  assignee: string,
+  assignee: StoryAssignee,
   parentKey?: string,
   storyPoints?: number
 ) {
+  const assigneeField =
+    assignee == null
+      ? null
+      : typeof assignee === 'string'
+        ? {displayName: assignee}
+        : {
+            displayName: assignee.displayName,
+            ...(assignee.emailAddress != null ? {emailAddress: assignee.emailAddress} : {}),
+            ...(assignee.accountId != null ? {accountId: assignee.accountId} : {}),
+          }
+
   return {
     key,
     fields: {
-      assignee: assignee ? {displayName: assignee} : null,
+      assignee: assigneeField,
       issuetype: {
         name: 'Story',
       },
@@ -57,35 +92,31 @@ function makeIssue(
 
 /** Default JQL search hits backing project filters and non-issue stories. */
 export const storyProjectIssues = [
+  makeIssue('FC-209', 'e-com toolkit implementation', 'To Do', storyAssigneeBrian, 'FC-145', 5),
+  makeIssue('FC-208', 'cross issue in UA dev environment', 'Done', storyAssigneeToney, 'FC-145', 3),
   makeIssue(
-    'FC-209',
-    'e-com toolkit implementation',
-    'To Do',
-    storyCurrentUser.displayName,
-    'FC-145',
-    5
-  ),
-  makeIssue('FC-208', 'cross issue in UA dev environment', 'Done', 'Toney Sebastian', 'FC-145', 3),
-  makeIssue('FC-206', 'Test case creation and execution', 'In Progress', 'QA User', 'FC-150', 8),
-  makeIssue(
-    'FC-205',
-    'Homepage merchandising updates',
-    'To Do',
-    storyCurrentUser.displayName,
+    'FC-206',
+    'Test case creation and execution',
+    'In Progress',
+    storyAssigneeQa,
     'FC-150',
-    2
+    8
   ),
+  makeIssue('FC-205', 'Homepage merchandising updates', 'To Do', storyAssigneeBrian, 'FC-150', 2),
 ]
 
 /** Full FC-207-shaped `/issue` payload with comments, links, labels, and ADF body. */
 export const storyIssue = {
   key: 'FC-207',
   fields: {
-    assignee: {displayName: storyCurrentUser.displayName},
+    assignee: {...storyAssigneeBrian},
     comment: {
       comments: [
         {
-          author: {displayName: 'Brian Dombrowski'},
+          author: {
+            displayName: 'Brian Dombrowski',
+            emailAddress: storyCurrentUser.emailAddress,
+          },
           body: {
             content: [
               {
@@ -100,7 +131,7 @@ export const storyIssue = {
           id: '1417440',
         },
         {
-          author: {displayName: 'Toney Sebastian'},
+          author: {...storyAssigneeToney},
           body: {
             content: [
               {
@@ -182,7 +213,7 @@ export const storyIssue = {
           'FC-145',
           'Homepage content carousel implementation',
           'Code Review',
-          'Toney Sebastian',
+          storyAssigneeToney,
           undefined,
           8
         ),
@@ -196,7 +227,7 @@ export const storyIssue = {
           'FC-113',
           'CMS Migration - CTA partials',
           'Ready For QA',
-          'QA User',
+          storyAssigneeQa,
           undefined,
           3
         ),
@@ -213,7 +244,7 @@ export const storyIssue = {
       key: 'FC',
       name: 'Facade1',
     },
-    reporter: {displayName: 'Toney Sebastian'},
+    reporter: {...storyAssigneeToney},
     status: {name: 'To Do'},
     summary: 'Render content carousel on homepage',
   },
@@ -222,12 +253,19 @@ export const storyIssue = {
 /** Child issues returned when JQL is `parent=FC-207` in mocks. */
 export const storyIssueChildren = {
   issues: [
-    makeIssue('FC-189', 'Content carousel nested child story', 'To Do', 'QA User', 'FC-207', 2),
+    makeIssue(
+      'FC-189',
+      'Content carousel nested child story',
+      'To Do',
+      storyAssigneeQa,
+      'FC-207',
+      2
+    ),
     makeIssue(
       'FC-190',
       'Carousel acceptance test case',
       'Ready For QA',
-      'Brian Dombrowski',
+      storyAssigneeBrian,
       'FC-207',
       1
     ),

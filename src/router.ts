@@ -7,6 +7,7 @@ import Login from './pages/login'
 import NotFound from './pages/not-found'
 import ProjectPage from './pages/project'
 import SettingsPage from './pages/settings'
+import UserPage from './pages/user'
 
 /** Slim router wiring URL patterns to page components and main scroll root. */
 export const router = new Router(
@@ -22,6 +23,10 @@ export const router = new Router(
     issue: {
       component: IssuePage,
       path: '/j-lite/issues/:issueKey',
+    },
+    user: {
+      component: UserPage,
+      path: '/j-lite/users/:email',
     },
     settings: {
       component: SettingsPage,

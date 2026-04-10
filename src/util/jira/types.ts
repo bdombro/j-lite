@@ -5,6 +5,14 @@ export interface JiraUser {
   emailAddress?: string
 }
 
+/**
+ * Person shown on issues and comments: display name plus optional email for linking to `/j-lite/users/...`.
+ */
+export interface JiraNamedUser {
+  displayName: string
+  emailAddress?: string
+}
+
 /** Project metadata from `/project/:key` (key, name, optional type). */
 export interface JiraProject {
   id?: string
@@ -22,12 +30,12 @@ export interface JiraIssueListItem {
   status?: string
   storyPoints?: number | string
   summary: string
-  assignee?: string
+  assignee?: JiraNamedUser
 }
 
 /** Single comment with author, timestamp, and optional ADF body. */
 export interface JiraComment {
-  author?: string
+  author?: JiraNamedUser
   body?: JiraAdfDoc | null
   created?: string
   id?: string
@@ -45,7 +53,7 @@ export interface JiraIssueDetail extends JiraIssueListItem {
   description?: JiraAdfDoc | null
   labels: string[]
   linkedIssues: JiraLinkedIssue[]
-  reporter?: string
+  reporter?: JiraNamedUser
   children: JiraIssueListItem[]
 }
 

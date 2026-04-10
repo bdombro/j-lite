@@ -3,6 +3,11 @@ export function buildIssueHref(issueKey: string) {
   return `/j-lite/issues/${encodeURIComponent(issueKey)}`
 }
 
+/** In-app path for a user profile view under `/j-lite/users/` (email is URL-encoded). */
+export function buildUserHref(email: string) {
+  return `/j-lite/users/${encodeURIComponent(email.trim())}`
+}
+
 /** In-app path for a project; optional JQL is stored as a `jql` query param. */
 export function buildProjectHref(projectKey: string, jql?: string) {
   const href = `/j-lite/projects/${encodeURIComponent(projectKey)}`

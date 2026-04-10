@@ -1,7 +1,7 @@
 import {RouteMatch} from '@slimr/router'
 import {useState} from 'react'
 
-import {InfoGrid, PageSection, StateNotice} from '~/components'
+import {InfoGrid, PageSection, StateNotice, UserNameLink} from '~/components'
 import {Layout} from '~/layout/layout-marketing'
 import {
   clearJLiteStorage,
@@ -56,7 +56,12 @@ export default function SettingsPage({url}: {route: RouteMatch; url: URL}) {
             <InfoGrid
               items={[
                 {label: 'Tenant Origin', value: bootstrap.data?.tenantOrigin || location.origin},
-                {label: 'User', value: bootstrap.data?.currentUser.displayName},
+                {
+                  label: 'User',
+                  value: bootstrap.data?.currentUser ? (
+                    <UserNameLink person={bootstrap.data.currentUser} />
+                  ) : undefined,
+                },
                 {label: 'Story Points Field', value: bootstrap.data?.storyPointsFieldId},
                 {label: 'Source Query', value: url.searchParams.get('from') || 'none'},
               ]}

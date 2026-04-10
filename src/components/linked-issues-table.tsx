@@ -4,6 +4,7 @@ import type {JiraLinkedIssue} from '~/util/jira'
 import {buildIssueHref} from '~/util/jira'
 
 import {EmptyState} from './empty-state'
+import {UserNameLink} from './user-name-link'
 
 /** Tabular view of inward/outward linked issues with type and status. */
 export function LinkedIssuesTable({issues}: {issues: JiraLinkedIssue[]}) {
@@ -31,7 +32,7 @@ export function LinkedIssuesTable({issues}: {issues: JiraLinkedIssue[]}) {
                   <a href={buildIssueHref(issue.key)}>{issue.key}</a>
                 </td>
                 <td className="linked-issues-table__summary">{issue.summary}</td>
-                <td>{issue.assignee || ''}</td>
+                <td>{issue.assignee ? <UserNameLink person={issue.assignee} /> : ''}</td>
                 <td>{issue.status || ''}</td>
                 <td>{issue.linkType}</td>
               </tr>

@@ -1,0 +1,8 @@
+.user-name-link {
+  color: var(--color-primary-darker);
+  text-decoration: none;
+}
+
+.user-name-link:hover {
+  text-decoration: underline;
+}

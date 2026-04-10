@@ -1,0 +1,13 @@
+/* User hero: muted email + sync line, tight vertical rhythm */
+.issue-page--user .issue-page__hero-copy > h1 {
+  margin-bottom: 0;
+}
+
+.issue-page--user .issue-page__hero-copy > p {
+  color: var(--color-gray8);
+  margin: 0.2rem 0 -1rem;
+}
+
+.issue-page--user .issue-page__hero-copy .notice-card .muted {
+  color: var(--color-gray8);
+}
