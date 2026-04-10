@@ -99,6 +99,7 @@ export default function IssuePage({route}: {route: RouteMatch}) {
                 {label: 'Assignee', value: issue.data?.assignee},
                 {label: 'Reporter', value: issue.data?.reporter},
                 {label: 'Story Points', value: issue.data?.storyPoints?.toString()},
+                {label: 'Labels', value: issue.data?.labels?.join(', ') || undefined},
               ]}
             />
           </section>

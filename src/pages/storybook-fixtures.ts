@@ -201,6 +201,7 @@ export const storyIssue = {
       },
     ],
     issuetype: {name: 'Story'},
+    labels: ['homepage', 'content', 'cms'],
     parent: {key: 'FC-145'},
     project: {
       key: 'FC',
@@ -238,6 +239,7 @@ export const storyMinimalIssue = {
     customfield_18557: null,
     description: null,
     issuelinks: [],
+    labels: [],
     parent: undefined,
     reporter: undefined,
     summary: 'Minimal issue state',

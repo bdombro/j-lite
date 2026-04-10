@@ -96,6 +96,7 @@ function getIssueFields(storyPointsFieldId?: string) {
     'description',
     'issuelinks',
     'issuetype',
+    'labels',
     'parent',
     'project',
     'reporter',
@@ -242,6 +243,9 @@ export async function getIssuePageData(issueKey: string, storyPointsFieldId?: st
     children: childrenSearch.map(child => normalizeIssue(child, storyPointsFieldId)),
     comments: normalizeComments(fields.comment?.comments),
     description: fields.description as JiraAdfDoc | null,
+    labels: Array.isArray(fields.labels)
+      ? (fields.labels as string[]).filter((x): x is string => typeof x === 'string')
+      : [],
     linkedIssues: normalizeLinkedIssues(fields.issuelinks, storyPointsFieldId),
     reporter: getDisplayName(fields.reporter),
   }

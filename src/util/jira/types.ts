@@ -37,6 +37,7 @@ export interface JiraLinkedIssue extends JiraIssueListItem {
 export interface JiraIssueDetail extends JiraIssueListItem {
   comments: JiraComment[]
   description?: JiraAdfDoc | null
+  labels: string[]
   linkedIssues: JiraLinkedIssue[]
   reporter?: string
   children: JiraIssueListItem[]
