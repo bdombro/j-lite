@@ -67,14 +67,7 @@ lint-watch:
 
 # Build, zip dist/ (Chrome-loadable root), and create a GitHub release for this commit.
 # Requires: gh CLI (https://cli.github.com/) authenticated for the repo.
-# Usage: just release 1.2.3   or   just release v1.2.3
+# Usage: just release 1.2.3 | just release v1.2.3 | just release patch|minor|major
+#   See scripts/release.sh for bump semantics and defaults when no prior release exists.
 release version: clean lint test build
-    #!/usr/bin/env bash
-    set -euo pipefail
-    cd "{{justfile_directory()}}"
-    ver="{{version}}"
-    [[ "$ver" =~ ^v ]] || ver="v$ver"
-    tmp="$(mktemp -d)"
-    trap 'rm -rf "$tmp"' EXIT
-    (cd dist && zip -qr "$tmp/j-lite-${ver}.zip" .)
-    gh release create "$ver" "$tmp/j-lite-${ver}.zip" --generate-notes
+    ./scripts/release.sh "{{version}}"
