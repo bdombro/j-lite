@@ -1,12 +1,6 @@
 import {toast} from './toast'
 
-/**
- * A falsey component that is all-effect -- it listens for errors and
- * triggers a toast with a reset button.
- *
- * Is a component and not hook for conveniently calling as a sibling component
- * to the toast component. As a hook, would have to be called in a child.
- */
+/** Effect-only: global `error` / `unhandledrejection` handler with a recovery toast. */
 export function ErrorToast() {
   useEffect(() => {
     const onError = (error: Error) => {

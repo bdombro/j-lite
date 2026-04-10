@@ -106,7 +106,7 @@ declare global {
   }
 }
 
-// Returns the same type as args
+/** Callable typing for static `difference` / `intersection` helpers on `Array`. */
 type ArrayDifferenceType = <T extends Array<sany>>(...arrays: T[][]) => T[]
 
 Array.difference = function (...arrays) {

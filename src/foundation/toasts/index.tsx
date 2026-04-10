@@ -5,9 +5,7 @@ import {Toasts} from './toast'
 
 export * from './toast'
 
-/**
- * All of the browser state toasts in one component
- */
+/** Mounts placement stacks plus browser, error, and connectivity listeners. */
 export function ToastPack() {
   return (
     <>

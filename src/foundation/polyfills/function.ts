@@ -70,6 +70,7 @@ function curry<A extends sany[], R>(fn: (...args: A) => R): Curried<A, R> {
     args.length >= fn.length ? fn(...(args as sany)) : curry((fn as sany).bind(undefined, ...args))
 }
 Function.curry = curry
+/** Return type of progressive partial application until arity is satisfied. */
 type Curried<A extends sany[], R> = <P extends Partial<A>>(
   ...args: P
 ) => P extends A
@@ -80,6 +81,7 @@ type Curried<A extends sany[], R> = <P extends Partial<A>>(
       : never
     : never
 
+/** Tuple whose length matches `T` (used to type curried rest parameters). */
 type SameLength<T extends sany[]> = Extract<{[K in keyof T]: sany}, sany[]>
 
 Function.debounce = debounce

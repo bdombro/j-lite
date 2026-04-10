@@ -1,5 +1,6 @@
 import type {StorybookConfig} from '@storybook/react-vite'
 
+/** Storybook discovery paths, addons, and Vite framework binding. */
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [

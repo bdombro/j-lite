@@ -5,6 +5,7 @@ import {buildIssueHref} from '~/util/jira'
 
 import {EmptyState} from './empty-state'
 
+/** Scrollable table of issues: epic, key, summary, assignee, status, points. */
 export function IssueTable({caption, issues}: {caption?: string; issues: JiraIssueListItem[]}) {
   if (!issues.length) {
     return <EmptyState>No issues matched this view.</EmptyState>

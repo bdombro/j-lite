@@ -1,17 +1,20 @@
 import type {RecentView} from '~/util/jira'
 
+/** Mock `/rest/api/3/myself` payload for Storybook. */
 export const storyCurrentUser = {
   accountId: 'story-user',
   displayName: 'Brian Dombrowski',
   emailAddress: 'brian@example.com',
 }
 
+/** Minimal `/rest/api/3/field` rows so story-point discovery resolves. */
 export const storyFieldDefinitions = [
   {id: 'customfield_18557', name: 'Story point estimate'},
   {id: 'summary', name: 'Summary'},
   {id: 'status', name: 'Status'},
 ]
 
+/** Mock `/rest/api/3/project/:key` record for project-page stories. */
 export const storyProject = {
   id: '27264',
   key: 'FC',
@@ -19,6 +22,7 @@ export const storyProject = {
   projectTypeKey: 'software',
 }
 
+/** Builds minimal REST-shaped issue objects for lists, links, and story data. */
 function makeIssue(
   key: string,
   summary: string,
@@ -51,6 +55,7 @@ function makeIssue(
   }
 }
 
+/** Default JQL search hits backing project filters and non-issue stories. */
 export const storyProjectIssues = [
   makeIssue(
     'FC-209',
@@ -72,6 +77,7 @@ export const storyProjectIssues = [
   ),
 ]
 
+/** Full FC-207-shaped `/issue` payload with comments, links, labels, and ADF body. */
 export const storyIssue = {
   key: 'FC-207',
   fields: {
@@ -213,6 +219,7 @@ export const storyIssue = {
   },
 }
 
+/** Child issues returned when JQL is `parent=FC-207` in mocks. */
 export const storyIssueChildren = {
   issues: [
     makeIssue('FC-189', 'Content carousel nested child story', 'To Do', 'QA User', 'FC-207', 2),
@@ -227,6 +234,7 @@ export const storyIssueChildren = {
   ],
 }
 
+/** Sparse issue fixture for the “minimal” issue dataset control. */
 export const storyMinimalIssue = {
   ...storyIssue,
   key: 'FC-321',
@@ -246,6 +254,7 @@ export const storyMinimalIssue = {
   },
 }
 
+/** Seed data written into the mocked recent-project cache slot. */
 export const storyRecentProjects: RecentView[] = [
   {
     href: '/j-lite/projects/FC',
@@ -257,6 +266,7 @@ export const storyRecentProjects: RecentView[] = [
   },
 ]
 
+/** Seed data written into the mocked recent-issue cache slot. */
 export const storyRecentIssues: RecentView[] = [
   {
     href: '/j-lite/issues/FC-207',

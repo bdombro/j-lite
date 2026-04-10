@@ -1,3 +1,4 @@
+/** Page-level UI pieces: tables, notices, ADF rendering, and navigation chrome. */
 export {ADFContent} from './adf-content'
 export {CommentsList} from './comments-list'
 export {EmptyState} from './empty-state'

@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import {CmsTable, getCmsTableQsProps} from './cms-table'
 
+/** Storybook module defaults for the CMS table showcase. */
 export default {
   component: CmsTable,
 }
@@ -76,6 +77,7 @@ export function CmsTable1() {
   }
 }
 
+/** Fake row model for the CMS table Storybook demo (sortable, bulk actions). */
 type User = {
   _id: string
   email: string
@@ -86,8 +88,7 @@ type User = {
   delete: () => Promise<void>
 }
 
-/** A mock fetch data hook with typical props */
-
+/** In-memory user grid with sort, filter, search, and paging for the demo table. */
 class UserDb {
   entries: User[] = []
   size = 1
@@ -164,4 +165,5 @@ class UserDb {
   }
 }
 
+/** Singleton dataset shared by the interactive `CmsTable1` story. */
 const userDb = new UserDb()

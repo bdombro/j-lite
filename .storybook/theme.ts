@@ -1,7 +1,9 @@
 import {create} from '@storybook/theming/create'
 
+/** Whether the OS reports a dark color scheme for manager chrome. */
 const prefersDarkMode = window.matchMedia('(prefers-color-scheme:dark)').matches // true
 
+/** Light or dark Storybook shell branding from `create`. */
 export default create({
   base: prefersDarkMode ? 'dark' : 'light',
   brandTitle: 'preact-template',

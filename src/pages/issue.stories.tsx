@@ -10,12 +10,14 @@ import {
   StoryRecentsMode,
 } from './storybook-support'
 
+/** Storybook control payload for dataset, error mode, and recents toggles. */
 type IssueStoryArgs = {
   dataset: IssueStoryDataset
   mode: JiraStoryMode
   recents: StoryRecentsMode
 }
 
+/** Controls dataset, error mode, and recents when previewing the issue screen in Storybook. */
 const meta = {
   argTypes: {
     dataset: {
@@ -54,10 +56,13 @@ const meta = {
 
 export default meta
 
+/** Story object typed against this module’s `meta` export. */
 type Story = StoryObj<typeof meta>
 
+/** Default mocked Jira responses and full recents. */
 export const Default: Story = {}
 
+/** Forces the issue REST handler to 404. */
 export const ErrorState: Story = {
   args: {
     mode: 'issue-error',

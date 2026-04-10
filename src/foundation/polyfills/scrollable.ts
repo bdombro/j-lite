@@ -17,11 +17,13 @@ addEventListener('locationchange', checkScrollableAggressive)
 setInterval(checkScrollable, 5000)
 checkScrollableAggressive()
 
+/** Polls scrollability frequently for a short window after navigation. */
 function checkScrollableAggressive() {
   const i = setInterval(checkScrollable, 50)
   setTimeout(() => clearInterval(i), 500)
 }
 
+/** Sets `window.scrollable` and root classes from whether `main` overflows. */
 function checkScrollable() {
   const main = document.querySelector('main')
   if (main && main.scrollHeight > main.clientHeight) {

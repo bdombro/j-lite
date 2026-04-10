@@ -2,6 +2,7 @@ import {useEffect, useMemo, useState} from 'react'
 
 import {clearJLiteStorage, readCachedValue, writeCachedValue} from './cache'
 
+/** Options for cache-first fetch: storage key, async loader, deps, and enable gate. */
 type QueryOptions<T> = {
   cacheKey: string
   deps?: React.DependencyList
@@ -9,6 +10,7 @@ type QueryOptions<T> = {
   fetcher: () => Promise<T>
 }
 
+/** UI-facing snapshot: data, errors, loading flags, and cache vs network source. */
 type QueryState<T> = {
   data?: T
   error?: string
@@ -18,6 +20,7 @@ type QueryState<T> = {
   source?: 'cache' | 'network'
 }
 
+/** React hook: show cache immediately, refetch in background, expose refresh/clear helpers. */
 export function useCachedQuery<T>({cacheKey, deps = [], enabled = true, fetcher}: QueryOptions<T>) {
   const [reloadToken, setReloadToken] = useState(0)
   const [state, setState] = useState<QueryState<T>>({

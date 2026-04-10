@@ -1,5 +1,6 @@
 import './info-grid.css'
 
+/** Responsive grid of labeled fields; empty values render as muted “N/A”. */
 export function InfoGrid({items}: {items: {label: string; value?: React.ReactNode}[]}) {
   return (
     <div className="info-grid">

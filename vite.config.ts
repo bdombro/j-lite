@@ -4,10 +4,12 @@ import react from '@vitejs/plugin-react-swc'
 import {resolve} from 'node:path'
 import {defineConfig, UserConfigExport} from 'vite'
 
+/** CLI basename (`vite`, `vitest`, `storybook`, …) used to pick plugin and alias sets. */
 const invokation = process.argv[1].split('/').at(-1) // i.e. vite, vitest or storybook
 
 // https://vitejs.dev/config/
 
+/** Production J-Lite bundle: Preact, path aliases, and single-chunk output options. */
 const prodConfig: UserConfigExport = {
   plugins: [
     /*
@@ -78,6 +80,7 @@ const prodConfig: UserConfigExport = {
   },
 }
 
+/** Storybook dev server: swaps React aliases and prepends the SWC React plugin. */
 const storybookConfig: UserConfigExport = merge(prodConfig, {
   // storybook doesn't like preact plugin but is fine with alias.
   // But, let's undo alias anyways so HMR works.
@@ -92,4 +95,5 @@ const storybookConfig: UserConfigExport = merge(prodConfig, {
 
 console.log('invokation', invokation)
 
+/** Vite setup: Preact aliases for the app, React plugin swap when Storybook runs. */
 export default defineConfig(invokation === 'storybook' ? storybookConfig : prodConfig)

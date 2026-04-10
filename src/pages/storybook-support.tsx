@@ -16,13 +16,20 @@ import {
   storyRecentProjects,
 } from './storybook-fixtures'
 
+/** Which mocked Jira endpoints should fail (bootstrap, project, issue, or none). */
 export type JiraStoryMode = 'happy' | 'bootstrap-error' | 'project-error' | 'issue-error'
+/** How to pre-seed recent project and issue lists in localStorage mocks. */
 export type StoryRecentsMode = 'none' | 'projects' | 'issues' | 'both'
+/** Synthetic `from=` query on dashboard/settings URLs for deep-link demos. */
 export type StorySourceMode = 'none' | 'issue' | 'project'
+/** Whether JQL-backed search fixtures return rows or an empty list. */
 export type ProjectStoryDataset = 'default' | 'empty'
+/** Preset JQL fragment applied to mocked project URLs. */
 export type ProjectStoryFilter = 'all' | 'open' | 'todo' | 'currentUser'
+/** Full vs stripped issue JSON returned from mocked `/issue` routes. */
 export type IssueStoryDataset = 'default' | 'minimal'
 
+/** Props for the wrapper that stubs `fetch`, URL bar, and recent-view cache. */
 type JiraStoryEnvironmentProps = {
   children: React.ReactNode
   issueDataset?: IssueStoryDataset
@@ -33,6 +40,7 @@ type JiraStoryEnvironmentProps = {
   recentProjects?: RecentView[]
 }
 
+/** Builds a JSON `Response` for mocked `fetch` handlers. */
 function makeResponse(body: unknown, init?: ResponseInit) {
   return new Response(JSON.stringify(body), {
     headers: {
@@ -43,6 +51,7 @@ function makeResponse(body: unknown, init?: ResponseInit) {
   })
 }
 
+/** Picks fixture issue arrays for a JQL string and project dataset mode. */
 function getSearchIssues(jql: string | null, projectDataset: ProjectStoryDataset) {
   if (projectDataset === 'empty') return []
   if (!jql) return storyProjectIssues
@@ -72,6 +81,7 @@ function getSearchIssues(jql: string | null, projectDataset: ProjectStoryDataset
   return base
 }
 
+/** Factory for a `fetch` stub that serves Jira REST paths from static fixtures. */
 function makeFetch(
   mode: JiraStoryMode,
   projectDataset: ProjectStoryDataset,
@@ -138,6 +148,7 @@ function makeFetch(
   }
 }
 
+/** Wraps stories with mocked `fetch`, synthetic URL, and optional recent-view cache seeds. */
 export function JiraStoryEnvironment({
   children,
   issueDataset = 'default',
@@ -170,6 +181,7 @@ export function JiraStoryEnvironment({
   return <>{children}</>
 }
 
+/** Minimal `RouteMatch` stand-in for rendering routed pages outside the real router. */
 export function makeRouteMatch(path: string, urlParams: Record<string, string> = {}) {
   return {
     component: (() => null) as React.FC<object>,
@@ -182,10 +194,12 @@ export function makeRouteMatch(path: string, urlParams: Record<string, string> =
   } as RouteMatch
 }
 
+/** Parses a path against a fixed localhost base for story args. */
 export function makeStoryUrl(path: string) {
   return new URL(path, 'http://localhost')
 }
 
+/** Fixture recent project/issue lists driven by the recents control. */
 export function getRecentStoryData(recents: StoryRecentsMode) {
   if (recents === 'none') {
     return {recentIssues: [], recentProjects: []}
@@ -197,12 +211,14 @@ export function getRecentStoryData(recents: StoryRecentsMode) {
   }
 }
 
+/** Sample Jira URLs used to populate `from=` query scenarios. */
 export function getSourceHref(source: StorySourceMode) {
   if (source === 'issue') return 'https://demo.atlassian.net/browse/FC-207'
   if (source === 'project') return 'https://demo.atlassian.net/jira/software/projects/FC/board'
   return undefined
 }
 
+/** Dashboard href including `from` when a source mode is selected. */
 export function buildDashboardPath(source: StorySourceMode) {
   const from = getSourceHref(source)
   if (!from) return '/j-lite'
@@ -212,6 +228,7 @@ export function buildDashboardPath(source: StorySourceMode) {
   return url.pathname + url.search
 }
 
+/** Settings href including `from` when a source mode is selected. */
 export function buildSettingsPath(source: StorySourceMode) {
   const from = getSourceHref(source)
   if (!from) return '/j-lite/settings'
@@ -221,6 +238,7 @@ export function buildSettingsPath(source: StorySourceMode) {
   return url.pathname + url.search
 }
 
+/** Project route with optional JQL query for filter story variants. */
 export function buildProjectPath(projectKey: string, filter: ProjectStoryFilter) {
   const url = new URL(`/j-lite/projects/${projectKey}`, 'http://localhost')
   if (filter === 'open') url.searchParams.set('jql', 'NOT status="Done"')
@@ -229,6 +247,7 @@ export function buildProjectPath(projectKey: string, filter: ProjectStoryFilter)
   return url.pathname + url.search
 }
 
+/** `RouteMatch` for a project page plus embedded `jql` url param when filtered. */
 export function getProjectRouteMatch(projectKey: string, filter: ProjectStoryFilter) {
   const urlParams: Record<string, string> = {projectKey}
   if (filter === 'open') urlParams.jql = 'NOT status="Done"'

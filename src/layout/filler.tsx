@@ -1,9 +1,8 @@
+/** Short lorem snippet duplicated to build long-scroll filler paragraphs. */
 const text =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, or'
 
-/**
- * A component that renders a lot of paragraphs
- */
+/** Long-scroll placeholder paragraphs for layout stress-testing. */
 export function Filler() {
   return (
     <>

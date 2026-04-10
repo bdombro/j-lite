@@ -8,6 +8,7 @@ import NotFound from './pages/not-found'
 import ProjectPage from './pages/project'
 import SettingsPage from './pages/settings'
 
+/** Slim router wiring URL patterns to page components and main scroll root. */
 export const router = new Router(
   {
     dashboard: {

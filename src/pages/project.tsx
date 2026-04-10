@@ -16,6 +16,7 @@ import {
   useCachedQuery,
 } from '~/util/jira'
 
+/** Project-scoped issue list with quick JQL filters and Jira deep link. */
 export default function ProjectPage({route}: {route: RouteMatch}) {
   const projectKey = route.urlParams?.projectKey?.toUpperCase()
   const extraJql = route.urlParams?.jql

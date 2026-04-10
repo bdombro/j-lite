@@ -1,3 +1,4 @@
+/** Inline “J-LITE” wordmark SVG with theme-driven stroke and fill. */
 export const Logo = (svgProps: SvgProps) => (
   <Svg
     height="20px"

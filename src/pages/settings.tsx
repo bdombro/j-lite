@@ -10,6 +10,7 @@ import {
   useCachedQuery,
 } from '~/util/jira'
 
+/** Tenant/session summary and a readout of keys stored in local cache. */
 export default function SettingsPage({url}: {route: RouteMatch; url: URL}) {
   document.title = 'Settings - J-Lite'
   const [cacheVersion, setCacheVersion] = useState(0)

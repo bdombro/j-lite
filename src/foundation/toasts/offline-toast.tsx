@@ -1,11 +1,9 @@
 import {toast} from './toast'
 
 /**
- * This component will show a toast when the user goes on and offline
+ * Listens for `online` / `offline` and mirrors connectivity with toasts.
  *
- * Note: the icon will be broken when this app is running in dev mode because
- * the icon is not pre-cached, but works in production mode because it is included
- * in previously loaded bundle(s)
+ * Icons may be missing in dev if not pre-cached; production bundles include them.
  */
 export function OfflineToast() {
   useEffect(() => {
@@ -19,9 +17,7 @@ export function OfflineToast() {
   return null
 }
 
-/**
- * Show toasts when the user goes offline
- */
+/** Announces disconnect and pins guidance until back online. */
 function onOffline() {
   toast({message: 'Disconnected', variant: 'alert'})
   toast({
@@ -32,9 +28,7 @@ function onOffline() {
   })
 }
 
-/**
- * Show a toast when the user goes online and cancel the sticky offline toast
- */
+/** Clears the sticky offline notice and confirms reconnection. */
 function onOnline() {
   toast.cancel('offline-ready')
   toast({message: 'Reconnected', variant: 'success'})

@@ -14,6 +14,7 @@ import {
   useCachedQuery,
 } from '~/util/jira'
 
+/** Home hub: session info, optional “from” Jira link, and recent project/issue views. */
 export default function Dashboard({url}: {route: RouteMatch; url: URL}) {
   document.title = 'J-Lite'
   const [cacheVersion, setCacheVersion] = useState(0)
@@ -129,6 +130,7 @@ export default function Dashboard({url}: {route: RouteMatch; url: URL}) {
   )
 }
 
+/** Single-column list of recent links with title and optional subtitle. */
 function RecentList({
   empty,
   items,

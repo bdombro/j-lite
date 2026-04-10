@@ -2,6 +2,7 @@ import {buildIssueHref} from '~/util/jira/url'
 
 import {Logo} from './logo'
 
+/** Top bar with optional burger menu, issue jump field, and right-side actions. */
 export function TopHeader({
   burger,
   left = <NavLogo />,
@@ -39,7 +40,7 @@ export function TopHeader({
   )
 }
 
-/** An anchor with an icon on the left */
+/** Navigation link that prefixes children with a named icon. */
 export function BurgerIconA({icon, ...p}: {icon: IconKeys} & AProps) {
   return (
     <NavA {...p}>
@@ -49,13 +50,14 @@ export function BurgerIconA({icon, ...p}: {icon: IconKeys} & AProps) {
   )
 }
 
-/** An anchor element with active classname injected  */
+/** Client-side link that gets an active class when its href matches the current URL. */
 export function NavA(p: AProps) {
   return (
     <A {...p} className={classJoin(p.className, location.href.includes(p.href!) ? 'active' : '')} />
   )
 }
 
+/** Small form that navigates to `/j-lite/issues/:key` when a valid key is entered. */
 function IssueJumpForm() {
   const [value, setValue] = useState('')
   return (
@@ -85,6 +87,7 @@ function IssueJumpForm() {
   )
 }
 
+/** Brand mark linking back to the app root (or a custom href). */
 export function NavLogo({href = '/j-lite'}) {
   return (
     <a className="logo" href={href}>

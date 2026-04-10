@@ -19,6 +19,7 @@ declare global {
 }
 
 // See list of icons at https://materialdesignicons.com
+/** Lazy dynamic imports keyed by public icon name for the global `Icon` component. */
 const _icons = {
   account: () => import('@slimr/mdi-paths/CardAccountDetailsOutline'),
   alert: () => import('@slimr/mdi-paths/AlertOutline'),

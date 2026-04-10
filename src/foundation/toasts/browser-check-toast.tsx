@@ -1,8 +1,6 @@
 import {toast} from './toast'
 
-/**
- * This component will show a toast if the browser is too old
- */
+/** Surfaces a blocking warning when core APIs like `fetch` are missing. */
 export function BrowserCheckToast() {
   useEffect(() => {
     const isModern = 'fetch' in window && 'fromEntries' in Object

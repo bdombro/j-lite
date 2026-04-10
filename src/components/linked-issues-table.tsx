@@ -5,6 +5,7 @@ import {buildIssueHref} from '~/util/jira'
 
 import {EmptyState} from './empty-state'
 
+/** Tabular view of inward/outward linked issues with type and status. */
 export function LinkedIssuesTable({issues}: {issues: JiraLinkedIssue[]}) {
   if (!issues.length) {
     return <EmptyState>No linked issues found for this issue.</EmptyState>

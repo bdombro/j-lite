@@ -5,6 +5,7 @@ export {}
  *
  * We detect this by comparing the window's outerHeight to its innerHeight.
  */
+/** Toggles a root class from viewport height delta after focus moves (mobile keyboards). */
 const softKeyboardListener = () => {
   setTimeout(() => {
     if (window.outerHeight - window.innerHeight > 300) {

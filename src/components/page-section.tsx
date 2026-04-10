@@ -1,3 +1,4 @@
+/** Section with a title row, optional actions slot, and body content. */
 export function PageSection({
   title,
   actions,

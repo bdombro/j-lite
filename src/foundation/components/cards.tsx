@@ -1,3 +1,4 @@
+/** Bordered, rounded panel primitive for grouped content. */
 export const Card = styled.div`
   br: 18px;
   b: 2px solid #aaa;

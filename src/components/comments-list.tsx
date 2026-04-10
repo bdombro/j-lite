@@ -3,6 +3,7 @@ import type {JiraComment} from '~/util/jira'
 import {ADFContent} from './adf-content'
 import {EmptyState} from './empty-state'
 
+/** Lists issue comments with author, timestamp, and rich body content. */
 export function CommentsList({comments}: {comments: JiraComment[]}) {
   if (!comments.length) {
     return <EmptyState>No comments found for this issue.</EmptyState>

@@ -5,9 +5,7 @@ import {Layout} from '~/layout/layout-login'
 import {Logo} from '~/layout/logo'
 import {router as r} from '~/router'
 
-/**
- * A demo of a login page
- */
+/** Sample email/password form wired to the demo router (not real auth). */
 export default function Login() {
   document.title = 'Login'
 
@@ -52,6 +50,7 @@ export default function Login() {
   )
 }
 
+/** Submit row: generic validation error line and primary submit control. */
 const FormFooter = () => {
   const {submitting, accepted, rejected} = useSFormContext()
 

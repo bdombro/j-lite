@@ -3,9 +3,12 @@ import './toast.css'
 import {useEvent} from '@slimr/react'
 import {memo} from 'react'
 
+/** `CustomEvent` name used when enqueueing a new transient message. */
 const createEvent = 'toast'
+/** `CustomEvent` name used when dismissing an existing message by key. */
 const cancelEvent = 'toast-cancel'
 
+/** Configuration for one queued notification (placement, duration, variant, message). */
 interface ToastProps {
   /** If true, the toast will be dismissable if duration=Infinity. default = true */
   dismissable: boolean
@@ -27,8 +30,10 @@ interface ToastProps {
   /** impacts the color and icon. default = info */
   variant: 'info' | 'success' | 'alert' | 'error'
 }
+/** Dispatch input: `message` required; other toast fields optional with defaults. */
 type CreateToastProps = Partial<Omit<ToastProps, 'message'>> & Pick<ToastProps, 'message'>
 
+/** Hosts right, bottom, and center stacks for transient messages. */
 export const Toasts = memo(function Toasts() {
   return (
     <>
@@ -39,12 +44,7 @@ export const Toasts = memo(function Toasts() {
   )
 })
 
-/**
- * Displays a toast message.
- *
- * Is controlled via the `dispatchToast` function.
- *
- */
+/** Single placement channel: listens for global events and animates one visible toast. */
 function ToastStack({placement}: {placement: ToastProps['placement']}) {
   const [toast, setToast] = useState<ToastProps | undefined>(undefined)
 
@@ -119,12 +119,6 @@ function ToastStack({placement}: {placement: ToastProps['placement']}) {
     return oldestNonInfinite || oldest
   }
 
-  /**
-   * Upsert the toast in the stack IFF the toast targets this stack.
-   *
-   * - First does checks on whether the toast matches the placement prop, bc
-   *   toast events go to all placement stacks, but only one should accept it
-   */
   const putToast = (_toast: ToastProps) => {
     // First check if exact match
     const isPlacementMatch = _toast.placement === placement
@@ -214,14 +208,7 @@ function ToastStack({placement}: {placement: ToastProps['placement']}) {
   )
 }
 
-/**
- * Dispatches a toast event for the Toast component to consume. Returns
- * the key of the toast.
- *
- * @param eventData The data to create the toast with.
- *
- * @returns The toast with defaults applied and a `cancel` function.
- */
+/** Fires a custom event consumed by placement stacks; returns the payload plus `cancel`. */
 export function dispatchToast(eventData: CreateToastProps) {
   const {
     dismissable = true,
@@ -247,25 +234,13 @@ export function dispatchToast(eventData: CreateToastProps) {
 
   return {
     ...toast,
-    /** Cancel the toast */
     cancel: () => dispatchToast.cancel(toast.key),
   }
 }
-/**
- * Dispatches a cancel event for the Toast component to consume.
- *
- * @param key The key of the toast to cancel.
- *
- */
+/** Broadcasts dismissal for a specific toast key to all listening stacks. */
 dispatchToast.cancel = (key: string) => {
   dispatchEvent(new CustomEvent(cancelEvent, {detail: key}))
 }
 
-/**
- * Dispatches a toast event for the Toast component to consume. Returns
- * the key of the toast.
- *
- * @param eventData The data to create the toast with.
- *
- */
+/** Convenience alias around the same custom-event API. */
 export const toast = dispatchToast

@@ -2,6 +2,7 @@ import './index.css'
 
 import {Layout} from '~/layout/layout-marketing'
 
+/** Marketing landing: what J-Lite is and a CTA into the dashboard. */
 export default function Index() {
   document.title = 'J-Lite — A Simpler Way to Browse Jira'
 

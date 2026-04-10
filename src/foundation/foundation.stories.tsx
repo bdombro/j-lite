@@ -13,6 +13,7 @@ import {
   toast,
 } from '.'
 
+/** Primary button size tokens side by side. */
 export const ButtonSizes = () => (
   <>
     <button className="lg" type="button">
@@ -27,6 +28,7 @@ export const ButtonSizes = () => (
   </>
 )
 
+/** Visual variants: default, secondary, and tertiary buttons. */
 export const ButtonTypes = () => (
   <>
     <button className="" type="button">
@@ -41,6 +43,7 @@ export const ButtonTypes = () => (
   </>
 )
 
+/** Segmented control-style group with left, middle, and right slots. */
 export const ButtonGroups = () => (
   <>
     <button className="md left" type="button">
@@ -55,6 +58,7 @@ export const ButtonGroups = () => (
   </>
 )
 
+/** Card shell wrapping two flex children for layout preview. */
 export const Cards = () => (
   <Card>
     <Div _minW={500}>I'm a box inside a Flex and Card</Div>
@@ -62,6 +66,7 @@ export const Cards = () => (
   </Card>
 )
 
+/** Swatches for core theme CSS variables. */
 export const Colors = () => (
   <table className="colors">
     {Colors.names.map(name => (
@@ -72,6 +77,7 @@ export const Colors = () => (
     ))}
   </table>
 )
+/** Keys passed to `Colors` to enumerate the design-token palette. */
 Colors.names = [
   'primary',
   'primary-darker',
@@ -99,8 +105,10 @@ function RenderCheck() {
   console.log('render-count:' + ++renderCount)
   return null
 }
+/** Increments on each demo form subtree render (console diagnostics). */
 let renderCount = 0
 
+/** Submit, reset, and disable-all controls used by form kitchen-sink stories. */
 const FormFooter = () => {
   const {submitting, accepted, rejected} = useSFormContext()
 
@@ -130,6 +138,7 @@ const FormFooter = () => {
   )
 }
 
+/** Wraps a single `InputBox` inside `SForm` plus footer and render counter. */
 const FormInput = ({
   type = 'text',
   ...inputProps
@@ -143,9 +152,13 @@ const FormInput = ({
   )
 }
 
+/** Checkbox field wired through the shared form harness. */
 export const FormInputCheckbox = () => <FormInput type="checkbox" />
+/** Date field wired through the shared form harness. */
 export const FormInputDate = () => <FormInput type="date" />
+/** Numeric field wired through the shared form harness. */
 export const FormInputNumber = () => <FormInput type="number" />
+/** Text field with length limits and a custom banned-string validator. */
 export const FormInputText = () => (
   <FormInput
     minLength={2}
@@ -155,6 +168,7 @@ export const FormInputText = () => (
   />
 )
 
+/** One form containing every supported input type plus radios and selects. */
 export const FormKitchenSink = () => {
   return (
     <SForm onSubmit={(_, vals) => console.log(vals)}>
@@ -211,6 +225,7 @@ export const FormKitchenSink = () => {
   )
 }
 
+/** Radio group only, with shared footer actions. */
 export const FormRadioBox = () => {
   return (
     <SForm>
@@ -231,6 +246,7 @@ export const FormRadioBox = () => {
 }
 
 // eslint-disable-next-line react/display-name
+/** Single or multi-select story driven by the `multiple` flag. */
 const FormSelect = ({multiple}: {multiple: boolean}) => {
   return (
     <SForm>
@@ -252,9 +268,12 @@ const FormSelect = ({multiple}: {multiple: boolean}) => {
   )
 }
 
+/** Select with one value and a blank placeholder row. */
 export const FormSelectSingle = () => <FormSelect multiple={false} />
+/** Select allowing multiple selected options. */
 export const FormSelectMultiple = () => <FormSelect multiple={true} />
 
+/** Submits to a handler that throws `SFormError` when a magic value is entered. */
 export const FormServerError = ({
   type = 'text',
   ...inputProps
@@ -277,6 +296,7 @@ export const FormServerError = ({
   )
 }
 
+/** Multiline field with the standard validation chrome. */
 export const FormTextareaBox = () => {
   return (
     <SForm>
@@ -287,6 +307,7 @@ export const FormTextareaBox = () => {
   )
 }
 
+/** Grid of every registered MDI icon name. */
 export const Icons = () => (
   <div className="icons">
     {Object.keys(icons).map((name, i) => (
@@ -298,6 +319,7 @@ export const Icons = () => (
   </div>
 )
 
+/** Buttons that fire sample toasts: variants, placement, stickiness, and errors. */
 export const Toasts = () => {
   return (
     <>
@@ -369,6 +391,7 @@ export const Toasts = () => {
   )
 }
 
+/** Heading levels and body text scale samples. */
 export const Typography = () => (
   <div className="typography">
     <h1>h1</h1>
@@ -384,6 +407,7 @@ export const Typography = () => (
   </div>
 )
 
+/** Storybook grouping entry for foundation visual checks. */
 export default {
   title: 'Foundation/stories',
   // tags: ['autodocs'],

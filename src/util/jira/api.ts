@@ -10,6 +10,7 @@ import {
 } from './types'
 import {buildProjectJql, getTenantOrigin, issueKeyCompare} from './url'
 
+/** Row from `/rest/api/3/field` used to resolve custom story-points field ids. */
 type JiraField = {
   id?: string
   key?: string
@@ -21,19 +22,24 @@ type JiraField = {
   }
 }
 
+/** Minimal user or status object with display-oriented name fields. */
 type RawNamedEntity = {
   displayName?: string
   name?: string
 }
 
+/** Issue JSON envelope as returned by Jira REST before normalization. */
 type RawIssue = {
   key: string
   fields: Record<string, sany>
 }
 
+/** Page size for each Jira search request before following `next` offsets. */
 const SEARCH_PAGE_SIZE = 1000
+/** Fallback custom field id when `/field` does not expose a story-points field. */
 const DEFAULT_STORY_POINTS_FIELD = 'customfield_18557'
 
+/** Resolves the custom field id used for story points from `/field` metadata. */
 export function pickStoryPointsField(fields: JiraField[]) {
   const exactMatch = fields.find(field => field.name?.toLowerCase() === 'story point estimate')
   if (exactMatch?.id) return exactMatch.id
@@ -44,6 +50,7 @@ export function pickStoryPointsField(fields: JiraField[]) {
   return DEFAULT_STORY_POINTS_FIELD
 }
 
+/** Same-origin `fetch` to Jira REST with JSON parsing and unified error text. */
 async function jiraFetchJson<T>(path: string) {
   const response = await fetch(path, {
     credentials: 'include',
@@ -71,6 +78,7 @@ async function jiraFetchJson<T>(path: string) {
   return (await response.json()) as T
 }
 
+/** Current user plus discovered story-points field and tenant origin. */
 export async function getBootstrapData(): Promise<JiraBootstrap> {
   const [currentUser, fields] = await Promise.all([
     jiraFetchJson<JiraUser>('/rest/api/3/myself'),
@@ -85,10 +93,12 @@ export async function getBootstrapData(): Promise<JiraBootstrap> {
   }
 }
 
+/** Loads project metadata by key from `/rest/api/3/project/:key`. */
 export async function getProject(projectKey: string) {
   return jiraFetchJson<JiraProject>(`/rest/api/3/project/${encodeURIComponent(projectKey)}`)
 }
 
+/** Field ids requested for a single-issue detail request. */
 function getIssueFields(storyPointsFieldId?: string) {
   return [
     'assignee',
@@ -106,6 +116,7 @@ function getIssueFields(storyPointsFieldId?: string) {
   ].filter(Boolean) as string[]
 }
 
+/** Slimmer field set for JQL search rows (lists and children). */
 function getSearchFields(storyPointsFieldId?: string) {
   return [
     'assignee',
@@ -118,16 +129,19 @@ function getSearchFields(storyPointsFieldId?: string) {
   ].filter(Boolean) as string[]
 }
 
+/** Human-readable label from Jira user or named entity payloads. */
 function getDisplayName(value?: RawNamedEntity | null) {
   return value?.displayName || value?.name || undefined
 }
 
+/** Reads numeric or string story points from configured or default custom fields. */
 function getStoryPoints(fields: Record<string, sany>, storyPointsFieldId?: string) {
   if (storyPointsFieldId && fields[storyPointsFieldId] != null) return fields[storyPointsFieldId]
   if (fields[DEFAULT_STORY_POINTS_FIELD] != null) return fields[DEFAULT_STORY_POINTS_FIELD]
   return undefined
 }
 
+/** Flattens REST issue JSON into the list-row shape used across the UI. */
 function normalizeIssue(issue: RawIssue, storyPointsFieldId?: string): JiraIssueListItem {
   const fields = issue.fields || {}
   return {
@@ -142,6 +156,7 @@ function normalizeIssue(issue: RawIssue, storyPointsFieldId?: string): JiraIssue
   }
 }
 
+/** Expands `issuelinks` into directed rows with link type labels, sorted by key. */
 function normalizeLinkedIssues(
   links: sany[] | undefined,
   storyPointsFieldId?: string
@@ -173,6 +188,7 @@ function normalizeLinkedIssues(
     .sort((a, b) => issueKeyCompare(a.key, b.key))
 }
 
+/** Maps raw comment objects to author, timestamp, and ADF body. */
 function normalizeComments(comments: sany[] | undefined): JiraComment[] {
   if (!comments?.length) return []
   return comments.map(comment => ({
@@ -183,6 +199,7 @@ function normalizeComments(comments: sany[] | undefined): JiraComment[] {
   }))
 }
 
+/** Query string for paginated `/search/jql` calls. */
 function buildSearchPath(jql: string, fields: string[], startAt = 0) {
   const url = new URL('/rest/api/3/search/jql', location.origin)
   url.searchParams.set('jql', jql)
@@ -192,6 +209,7 @@ function buildSearchPath(jql: string, fields: string[], startAt = 0) {
   return url.pathname + url.search
 }
 
+/** Walks every page of search results until `total` is satisfied. */
 async function searchAllIssues(jql: string, fields: string[]) {
   const initial = await jiraFetchJson<{issues: RawIssue[]; total: number}>(
     buildSearchPath(jql, fields)
@@ -206,6 +224,7 @@ async function searchAllIssues(jql: string, fields: string[]) {
   return issues.sort((a, b) => issueKeyCompare(a.key, b.key))
 }
 
+/** Project record plus all issues matching built JQL, normalized for the table. */
 export async function getProjectPageData(
   projectKey: string,
   extraJql: string | undefined,
@@ -225,6 +244,7 @@ export async function getProjectPageData(
   }
 }
 
+/** One issue with children, comments, description, links, labels, and reporter. */
 export async function getIssuePageData(issueKey: string, storyPointsFieldId?: string) {
   const issueFields = getIssueFields(storyPointsFieldId)
   const issueUrl = new URL(`/rest/api/3/issue/${encodeURIComponent(issueKey)}`, location.origin)

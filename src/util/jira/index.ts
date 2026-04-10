@@ -1,3 +1,4 @@
+/** Jira REST facades, URL builders, local cache, hooks, and shared DTO types. */
 export * from './api'
 export * from './cache'
 export * from './hooks'

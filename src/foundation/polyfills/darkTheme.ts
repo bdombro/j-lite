@@ -3,7 +3,9 @@ export {}
  * Add a class to the documentElement when the user has requested a dark theme
  * and update the meta theme-color tag
  */
+/** Media-query handle for the OS dark-color-scheme preference. */
 const prefersDarkMatchMedia = matchMedia('(prefers-color-scheme: dark)')
+/** Syncs root classes and theme-color meta to light vs dark preference changes. */
 const prefersDarkListener = (e: {matches: boolean}) => {
   if (e.matches) {
     window.prefersDark = true

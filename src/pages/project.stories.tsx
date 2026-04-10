@@ -12,6 +12,7 @@ import {
   StoryRecentsMode,
 } from './storybook-support'
 
+/** Storybook control payload for dataset, filters, errors, and recents. */
 type ProjectStoryArgs = {
   dataset: ProjectStoryDataset
   mode: JiraStoryMode
@@ -19,6 +20,7 @@ type ProjectStoryArgs = {
   recents: StoryRecentsMode
 }
 
+/** Dataset, JQL preset, errors, and recents for project-page Storybook states. */
 const meta = {
   argTypes: {
     dataset: {
@@ -62,16 +64,20 @@ const meta = {
 
 export default meta
 
+/** Story object typed against this module’s `meta` export. */
 type Story = StoryObj<typeof meta>
 
+/** Full issue list with default filters. */
 export const Default: Story = {}
 
+/** Applies the “To Do” quick-filter JQL fragment. */
 export const FilteredToDo: Story = {
   args: {
     projectFilter: 'todo',
   },
 }
 
+/** Project or search endpoint returns an error from mocks. */
 export const ErrorState: Story = {
   args: {
     mode: 'project-error',

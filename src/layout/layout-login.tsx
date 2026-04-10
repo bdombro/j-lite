@@ -1,6 +1,4 @@
-/**
- * A layout with a header and a main section
- */
+/** Centered narrow column for auth-style screens. */
 export function Layout({children}: {children: React.ReactNode}) {
   return (
     <Main _ai="center" _d="flex" _jc="center" _my={40} _pt="var(--statusbar-height)">
@@ -9,6 +7,7 @@ export function Layout({children}: {children: React.ReactNode}) {
   )
 }
 
+/** Fixed-width inner column inside padded section chrome. */
 Layout.Section = function LayoutSection({
   children,
   innerProps,

@@ -22,6 +22,7 @@ import {
   useCachedQuery,
 } from '~/util/jira'
 
+/** Full issue detail: overview, children, links, description, and comments. */
 export default function IssuePage({route}: {route: RouteMatch}) {
   const issueKey = route.urlParams?.issueKey?.toUpperCase()
 

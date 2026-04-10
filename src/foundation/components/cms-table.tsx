@@ -7,6 +7,7 @@ import React, {Fragment as F, useCallback, useState} from 'react'
 
 import {toast} from '~/foundation'
 
+/** Sortable, searchable table with optional bulk actions and query-driven state. */
 interface CmsTableProps {
   bulkOptions?: {label: string; cb: (selection: sany[]) => sany}[]
   cols: {label: string; sortValue?: string; sortDefault?: 'asc' | 'desc'}[]
@@ -14,11 +15,13 @@ interface CmsTableProps {
   rows: CmsRow[]
   total: number
 }
+/** One rendered row: opaque `obj` for bulk callbacks plus visible cell nodes. */
 type CmsRow = {
   obj: sany // the obj that will be passed to bulk actions
   cols: React.ReactNode[] // the cols that will be displayed
 }
 
+/** Parses current URL query into paging, search, and sort state for the table. */
 export function getCmsTableQsProps<SortBy extends string>() {
   // TODO: Move the qs props out of cms-table
   const qs = queryStrings.parse()
@@ -32,6 +35,7 @@ export function getCmsTableQsProps<SortBy extends string>() {
   }
 }
 
+/** Searchable, sortable data grid with bulk actions and query-string-driven pagination. */
 export function CmsTable(props: CmsTableProps) {
   const {bulkOptions, cols, pages, rows, total} = props
 
@@ -95,7 +99,7 @@ export function CmsTable(props: CmsTableProps) {
   )
 }
 
-/**  */
+/** Submits a search term into the table query string (with unchanged-query guard). */
 function SearchRow({current}: {current?: string}) {
   // TODO: decide if should be in table
   // TODO: Make inputs have a left, center, right class
@@ -120,7 +124,7 @@ function SearchRow({current}: {current?: string}) {
   )
 }
 
-/**  */
+/** Toolbar pairing bulk-action controls with pagination summary. */
 function BulkOptionsAndPagination(
   p: Pick<CmsTableProps, 'total' | 'pages' | 'bulkOptions'> & {
     isFooter?: boolean
@@ -138,7 +142,7 @@ function BulkOptionsAndPagination(
   )
 }
 
-/**  */
+/** Item count plus first/prev/next/last controls when multiple pages exist. */
 function Pagination(
   p: Pick<CmsTableProps, 'total' | 'pages'> & {
     isFooter?: boolean
@@ -172,7 +176,7 @@ function Pagination(
   )
 }
 
-/**  */
+/** Navigates to a clamped page index or nudges with a toast when already at the edge. */
 function PageButton(
   p: Pick<CmsTableProps, 'pages'> & {
     title: string
@@ -207,6 +211,7 @@ function PageButton(
   )
 }
 
+/** Select plus apply: runs a chosen bulk callback over checked row payloads. */
 function BulkActionsForm({
   checked,
   bulkOptions,
@@ -257,7 +262,7 @@ function BulkActionsForm({
   )
 }
 
-/**  */
+/** Header or footer row: select-all plus responsive column labels. */
 function THeadOrFoot({
   checked,
   cols,
@@ -302,12 +307,13 @@ function THeadOrFoot({
   )
 }
 
+/** Shared icon sizing and color for sort-direction affordances in column headers. */
 const carrotProps = {
   size: 20,
   style: {marginBottom: -4, marginTop: -4, color: 'var(--black)'},
 }
 
-/**  */
+/** Column header cell with optional sort affordance and query-string toggling. */
 function HeadCol({
   colData,
   sortBy,
@@ -348,7 +354,7 @@ function HeadCol({
   )
 }
 
-/**  */
+/** One data row: checkbox plus either full columns or a stacked mobile layout. */
 function BodyRow(
   p: Pick<CmsTableProps, 'cols'> & {
     row: CmsRow
@@ -389,7 +395,7 @@ function BodyRow(
   )
 }
 
-/**  */
+/** Per-row selection control bound to the shared checked set. */
 function RowCheckbox(p: {row: CmsRow; rowNumber: number; checked: UseSet2<CmsRow>}) {
   const onClick = useCallback(() => p.checked.toggle(p.row), [])
   return (
@@ -403,6 +409,7 @@ function RowCheckbox(p: {row: CmsRow; rowNumber: number; checked: UseSet2<CmsRow
   )
 }
 
+/** Merges values into the current URL query without navigation. */
 function qsGo(vals: Record<string, string | number | boolean | undefined>) {
   history.replaceState(Date.now(), '', queryStrings.create(vals, {upsert: true}))
 }

@@ -20,6 +20,7 @@ import './softKeyboard'
 import './string'
 import './styled'
 
+/** Ambient flags and `global` alias after loading all polyfill modules. */
 declare global {
   var global: typeof globalThis
   var isNode: boolean

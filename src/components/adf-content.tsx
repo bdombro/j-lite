@@ -3,6 +3,7 @@ import React from 'react'
 import type {JiraAdfDoc, JiraAdfNode} from '~/util/jira'
 import {buildIssueHref} from '~/util/jira'
 
+/** Renders plain ADF text nodes, applying strong/em/code marks when present. */
 function renderTextNode(node: JiraAdfNode, key: string) {
   if (!node.text) return null
 
@@ -16,6 +17,7 @@ function renderTextNode(node: JiraAdfNode, key: string) {
   return <>{content}</>
 }
 
+/** Renders inline ADF nodes including smart links to in-app issue URLs. */
 function renderInline(node: JiraAdfNode, key: string): React.ReactNode {
   if (!node.type) return null
 
@@ -42,6 +44,7 @@ function renderInline(node: JiraAdfNode, key: string): React.ReactNode {
   return null
 }
 
+/** Maps block-level ADF (paragraphs, headings, lists, rules) to DOM structure. */
 function renderBlock(node: JiraAdfNode, key: string): React.ReactNode {
   if (!node.type) return null
 
@@ -97,6 +100,7 @@ function renderBlock(node: JiraAdfNode, key: string): React.ReactNode {
   ))
 }
 
+/** Turns Atlassian Document Format into readable HTML for descriptions and comments. */
 export function ADFContent({doc}: {doc?: JiraAdfDoc | null}) {
   if (!doc?.content?.length) {
     return <p className="muted">No description available.</p>

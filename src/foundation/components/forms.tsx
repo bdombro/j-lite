@@ -13,9 +13,7 @@ import {
 import {numericStringMask} from '@slimr/util'
 import {forwardRef} from 'react'
 
-/**
- * A generic error to display at the bottom of a form
- */
+/** Assertive live region for a single form-wide error string. */
 export function GenericError({
   error,
   ...divProps
@@ -32,9 +30,7 @@ export function GenericError({
   )
 }
 
-/**
- * An input with label, error, and validation handling
- */
+/** Labeled field with built-in constraint messages, optional custom rules, and tel/password extras. */
 export const InputBox = memo(
   forwardRef<HTMLInputElement, InputBoxProps>(function InputBox(
     {divProps, label, labelProps, onBlur, onChange, type, validator, ...inputProps},
@@ -177,14 +173,13 @@ export const InputBox = memo(
     )
   })
 )
+/** Props for labeled text-like inputs, including optional custom validation. */
 export type InputBoxProps = Omit<InputProps, 'id' | 'name' | 'value'> &
   BaseProps & {
     validator?: (val: string) => string | null | false | undefined
   }
 
-/**
- * A set of radio inputs with label and error handling
- */
+/** Grouped radios sharing one label, constraint surface, and form lifecycle hooks. */
 export const RadioBox = forwardRef<HTMLDivElement, RadioBoxProps>(function RadioBox(
   {
     defaultValue,
@@ -299,6 +294,7 @@ export const RadioBox = forwardRef<HTMLDivElement, RadioBoxProps>(function Radio
     </Div>
   )
 })
+/** Extends boxed input props with radio group layout and option list. */
 export type RadioBoxProps = InputBoxProps & {
   innerDivProps?: DivProps
   inputLabelProps?: LabelProps
@@ -419,6 +415,7 @@ export const SelectBox = forwardRef<HTMLSelectElement, SelectBoxProps>(function 
     </Div>
   )
 })
+/** Select field props with static options and optional per-option passthrough. */
 export type SelectBoxProps = Omit<SelectProps, 'id' | 'name' | 'value'> &
   BaseProps & {
     options: {label: string; value: string}[]
@@ -434,6 +431,7 @@ export const TextareaBox = forwardRef<HTMLTextAreaElement, InputBoxProps>(
   }
 )
 
+/** Shared `label`, `name`, and layout props for all “boxed” field components. */
 type BaseProps = {
   divProps?: DivProps
   label: string
@@ -461,8 +459,8 @@ const password = {
     'Password must be at least 8 characters with 1 number, 1 lowercase letter, and 1 uppercase letter',
 }
 
+/** Masking and validation helpers shared by `tel` inputs in `InputBox`. */
 const tel = {
-  /** Formats a phone number for input.type = tel */
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
     // If international format
     if (e.currentTarget.value.startsWith('+')) {
@@ -477,11 +475,6 @@ const tel = {
       .replace(/\) $/, '') // changes '(11)' to '(11'
       .replace(/\($/, '') // changes '(' to ''
   },
-  /**
-   * A regex for a phone number
-   * - must be 10 digits if no country code
-   * - must be 10-15 digits if country code
-   */
   validator: (str: string) => {
     if (str.startsWith('+')) {
       const isValid = /^\+?\d{10,15}$/.test(str)

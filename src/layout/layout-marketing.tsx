@@ -6,9 +6,7 @@ import {router as r} from '~/router'
 
 import {BurgerIconA, NavA, TopHeader} from './top-header'
 
-/**
- * A layout with a header and a main section
- */
+/** Public-site shell: top header with nav, optional offline pill, and main content. */
 export function Layout({children}: {children: React.ReactNode}) {
   return (
     <div className="layout-marketing">
@@ -38,6 +36,7 @@ export function Layout({children}: {children: React.ReactNode}) {
   )
 }
 
+/** Constrained content width for marketing and issue-style pages. */
 Layout.Section = function LayoutSection({
   children,
   innerProps,
@@ -52,6 +51,7 @@ Layout.Section = function LayoutSection({
   )
 }
 
+/** Compact badge shown in the header when the browser reports offline. */
 function OfflinePill() {
   const {online} = useNetworkState()
   if (online) return null

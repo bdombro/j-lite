@@ -4,9 +4,7 @@ import {router as r} from '~/router'
 
 import {BurgerIconA, NavA, NavLogo, TopHeader} from './top-header'
 
-/**
- * A layout with a header and a main section
- */
+/** App shell with sidebar, corner decorations, scrollable main, and footer nav. */
 export function Layout({children}: {children: React.ReactNode}) {
   return (
     <div className="layout-dashboard">
@@ -35,6 +33,7 @@ export function Layout({children}: {children: React.ReactNode}) {
   )
 }
 
+/** Standard content column inside the dashboard main region. */
 Layout.Section = function LayoutSection({
   children,
   innerProps,
@@ -49,6 +48,7 @@ Layout.Section = function LayoutSection({
   )
 }
 
+/** Decorative rounded-corner glyphs at the main content edges. */
 function Corners() {
   return (
     <>
@@ -70,6 +70,7 @@ function Corners() {
   )
 }
 
+/** Bottom icon strip mirroring key sidebar destinations. */
 function Footer() {
   return (
     <footer className="bottom-footer">
@@ -81,6 +82,7 @@ function Footer() {
   )
 }
 
+/** Icon-only footer link using shared nav active styling. */
 function FooterIconA({icon, ...p}: {icon: IconKeys} & AProps) {
   return (
     <NavA {...p}>
@@ -89,6 +91,7 @@ function FooterIconA({icon, ...p}: {icon: IconKeys} & AProps) {
   )
 }
 
+/** Collapsible side navigation with account and logout entries. */
 function Sidebar() {
   const [isMini, setIsMini] = useState(false)
   return (
@@ -119,6 +122,7 @@ function Sidebar() {
   )
 }
 
+/** Sidebar row link with leading icon and text label. */
 function SidebarIconA({icon, ...p}: {icon: IconKeys} & AProps) {
   return (
     <NavA {...p}>

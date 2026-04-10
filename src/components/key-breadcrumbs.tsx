@@ -1,5 +1,6 @@
 import {buildIssueHref, buildProjectHref} from '~/util/jira'
 
+/** Project / optional parent / current issue key trail with in-app links. */
 export function KeyBreadcrumbs({
   issueKey,
   parentKey,

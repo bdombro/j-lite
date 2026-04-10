@@ -25,6 +25,7 @@ Device.getInfo().then(info => {
   window.capacitorPlatform = info.platform as Platform
   document.documentElement.classList.add(`capacitor-platform-${info.platform}`)
 })
+/** Values aligned with `Device.getInfo().platform` from `@capacitor/device` for CSS hooks. */
 enum Platform {
   android = 'android',
   ios = 'ios',
@@ -38,9 +39,7 @@ window.isTouchEnabled =
   'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
 document.documentElement.classList.add('touch')
 
-/**
- * Detect the operating system via Browser API.
- */
+/** Parsed from `navigator.appVersion` substrings; sets `os-*` classes on `<html>`. */
 enum Os {
   android = 'android',
   iphone = 'iphone',
@@ -52,6 +51,7 @@ enum Os {
   windows = 'windows',
 }
 window.os = Os.unknown
+/** Cached user-agent fragment used for coarse OS detection. */
 const av = navigator.appVersion
 if (av.includes('Android')) {
   window.os = Os.android

@@ -12,12 +12,14 @@ import {
   StorySourceMode,
 } from './storybook-support'
 
+/** Storybook control payload for bootstrap errors, recents, and `from` source. */
 type DashboardStoryArgs = {
   mode: JiraStoryMode
   recents: StoryRecentsMode
   source: StorySourceMode
 }
 
+/** Wires mocked bootstrap, `from` URL, and recents into the dashboard page. */
 const meta = {
   argTypes: {
     mode: {
@@ -58,10 +60,13 @@ const meta = {
 
 export default meta
 
+/** Story object typed against this module’s `meta` export. */
 type Story = StoryObj<typeof meta>
 
+/** Signed-in session with sample recents and a synthetic `from` query. */
 export const Default: Story = {}
 
+/** Simulates `/myself` failure during bootstrap. */
 export const BootstrapError: Story = {
   args: {
     mode: 'bootstrap-error',

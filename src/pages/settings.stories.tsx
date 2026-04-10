@@ -12,12 +12,14 @@ import {
   StorySourceMode,
 } from './storybook-support'
 
+/** Storybook control payload mirroring dashboard: mode, recents, and `from` source. */
 type SettingsStoryArgs = {
   mode: JiraStoryMode
   recents: StoryRecentsMode
   source: StorySourceMode
 }
 
+/** Mocked bootstrap, `from` query, and recents around the settings screen. */
 const meta = {
   argTypes: {
     mode: {
@@ -58,6 +60,8 @@ const meta = {
 
 export default meta
 
+/** Story object typed against this module’s `meta` export. */
 type Story = StoryObj<typeof meta>
 
+/** Typical session details and cache key listing. */
 export const Default: Story = {}

@@ -1,9 +1,6 @@
 import {Layout} from '~/layout/layout-marketing'
 
-/**
- * A unified not-found page that renders context-appropriate content
- * based on whether the current path is within J-Lite.
- */
+/** 404 inside `/j-lite` vs elsewhere, with layout matched to each context. */
 export default function NotFound() {
   const isJLite = location.pathname.startsWith('/j-lite')
   document.title = isJLite ? 'Not Found - J-Lite' : 'Not Found'

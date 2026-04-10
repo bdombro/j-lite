@@ -1,3 +1,4 @@
+/** Shows loading, last-sync time, or error text for Jira-backed views. */
 export function StateNotice({
   error,
   fetchedAt,
