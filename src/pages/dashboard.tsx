@@ -3,7 +3,7 @@ import './dashboard.css'
 import {RouteMatch} from '@slimr/router'
 import {useMemo, useState} from 'react'
 
-import {PageSection, StateNotice} from '~/components'
+import {PageSection, StateNotice, UserNameLink} from '~/components'
 import {Layout} from '~/layout/layout-marketing'
 import {
   clearJLiteStorage,
@@ -60,7 +60,9 @@ export default function Dashboard({url}: {route: RouteMatch; url: URL}) {
                 <dl className="dashboard-page__meta-list">
                   <div>
                     <dt>Signed in as</dt>
-                    <dd>{bootstrap.data.currentUser.displayName}</dd>
+                    <dd>
+                      <UserNameLink person={bootstrap.data.currentUser} />
+                    </dd>
                   </div>
                   <div>
                     <dt>Authentication</dt>

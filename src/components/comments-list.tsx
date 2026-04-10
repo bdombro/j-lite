@@ -2,6 +2,7 @@ import type {JiraComment} from '~/util/jira'
 
 import {ADFContent} from './adf-content'
 import {EmptyState} from './empty-state'
+import {UserNameLink} from './user-name-link'
 
 /** Lists issue comments with author, timestamp, and rich body content. */
 export function CommentsList({comments}: {comments: JiraComment[]}) {
@@ -14,10 +15,16 @@ export function CommentsList({comments}: {comments: JiraComment[]}) {
       {comments.map(comment => (
         <article
           className="comment-card"
-          key={comment.id || `${comment.author}-${comment.created}`}
+          key={comment.id || `${comment.author?.displayName}-${comment.created}`}
         >
           <div className="comment-meta">
-            <strong>{comment.author || 'Unknown author'}</strong>
+            <strong>
+              {comment.author ? (
+                <UserNameLink person={comment.author} />
+              ) : (
+                'Unknown author'
+              )}
+            </strong>
             <span>{comment.created ? new Date(comment.created).toLocaleString() : ''}</span>
           </div>
           <ADFContent doc={comment.body} />

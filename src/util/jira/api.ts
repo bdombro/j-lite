@@ -5,6 +5,7 @@ import {
   JiraIssueDetail,
   JiraIssueListItem,
   JiraLinkedIssue,
+  JiraNamedUser,
   JiraProject,
   JiraUser,
 } from './types'
@@ -25,6 +26,7 @@ type JiraField = {
 /** Minimal user or status object with display-oriented name fields. */
 type RawNamedEntity = {
   displayName?: string
+  emailAddress?: string
   name?: string
 }
 
@@ -98,6 +100,63 @@ export async function getProject(projectKey: string) {
   return jiraFetchJson<JiraProject>(`/rest/api/3/project/${encodeURIComponent(projectKey)}`)
 }
 
+/** Jira user row from `/user/search` including account id for JQL. */
+type JiraUserSearchHit = JiraUser & {accountId?: string}
+
+/** Escapes a user id for use inside a JQL quoted string. */
+function escapeJqlQuoted(value: string) {
+  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+}
+
+/**
+ * Resolves a user by email via `/user/search`, then loads all issues where they are assignee.
+ */
+export async function getUserPageData(emailParam: string, storyPointsFieldId?: string) {
+  const email = emailParam.trim()
+  if (!email) {
+    throw new Error('Email is required')
+  }
+
+  const searchUrl = new URL('/rest/api/3/user/search', location.origin)
+  searchUrl.searchParams.set('query', email)
+
+  const candidates = await jiraFetchJson<JiraUserSearchHit[]>(
+    searchUrl.pathname + searchUrl.search
+  )
+
+  const lower = email.toLowerCase()
+  let user =
+    candidates.find(u => u.emailAddress?.toLowerCase() === lower) ?? undefined
+
+  if (!user) {
+    if (candidates.length === 1) {
+      user = candidates[0]
+    } else if (candidates.length > 1) {
+      throw new Error(
+        `Several users matched "${email}"; use the exact email shown in Jira for this person`
+      )
+    }
+  }
+
+  if (!user?.accountId) {
+    throw new Error(`No Jira user found for ${email}`)
+  }
+
+  const jql = `assignee = "${escapeJqlQuoted(user.accountId)}"`
+  const issues = await searchAllIssues(jql, getSearchFields(storyPointsFieldId))
+
+  return {
+    issueCount: issues.length,
+    jql,
+    issues: issues.map(issue => normalizeIssue(issue, storyPointsFieldId)),
+    user: {
+      accountId: user.accountId,
+      displayName: user.displayName,
+      emailAddress: user.emailAddress ?? email,
+    },
+  }
+}
+
 /** Field ids requested for a single-issue detail request. */
 function getIssueFields(storyPointsFieldId?: string) {
   return [
@@ -134,6 +193,15 @@ function getDisplayName(value?: RawNamedEntity | null) {
   return value?.displayName || value?.name || undefined
 }
 
+/** User-shaped field from REST (assignee, reporter, comment author). */
+function normalizePerson(value?: RawNamedEntity | null): JiraNamedUser | undefined {
+  const displayName = getDisplayName(value)
+  if (!displayName) return undefined
+  const emailAddress =
+    value?.emailAddress && typeof value.emailAddress === 'string' ? value.emailAddress : undefined
+  return emailAddress ? {displayName, emailAddress} : {displayName}
+}
+
 /** Reads numeric or string story points from configured or default custom fields. */
 function getStoryPoints(fields: Record<string, sany>, storyPointsFieldId?: string) {
   if (storyPointsFieldId && fields[storyPointsFieldId] != null) return fields[storyPointsFieldId]
@@ -145,7 +213,7 @@ function getStoryPoints(fields: Record<string, sany>, storyPointsFieldId?: strin
 function normalizeIssue(issue: RawIssue, storyPointsFieldId?: string): JiraIssueListItem {
   const fields = issue.fields || {}
   return {
-    assignee: getDisplayName(fields.assignee),
+    assignee: normalizePerson(fields.assignee),
     issueType: getDisplayName(fields.issuetype),
     key: issue.key,
     parentKey: fields.parent?.key,
@@ -192,7 +260,7 @@ function normalizeLinkedIssues(
 function normalizeComments(comments: sany[] | undefined): JiraComment[] {
   if (!comments?.length) return []
   return comments.map(comment => ({
-    author: getDisplayName(comment.author),
+    author: normalizePerson(comment.author),
     body: comment.body as JiraAdfDoc | null,
     created: comment.created,
     id: comment.id,
@@ -267,7 +335,7 @@ export async function getIssuePageData(issueKey: string, storyPointsFieldId?: st
       ? (fields.labels as string[]).filter((x): x is string => typeof x === 'string')
       : [],
     linkedIssues: normalizeLinkedIssues(fields.issuelinks, storyPointsFieldId),
-    reporter: getDisplayName(fields.reporter),
+    reporter: normalizePerson(fields.reporter),
   }
 
   return detail

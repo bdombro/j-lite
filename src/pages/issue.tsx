@@ -12,6 +12,7 @@ import {
   LinkedIssuesTable,
   PageSection,
   StateNotice,
+  UserNameLink,
 } from '~/components'
 import {Layout} from '~/layout/layout-marketing'
 import {
@@ -103,8 +104,18 @@ export default function IssuePage({route}: {route: RouteMatch}) {
               items={[
                 {label: 'Issue Type', value: issue.data?.issueType},
                 {label: 'Status', value: issue.data?.status},
-                {label: 'Assignee', value: issue.data?.assignee},
-                {label: 'Reporter', value: issue.data?.reporter},
+                {
+                  label: 'Assignee',
+                  value: issue.data?.assignee ? (
+                    <UserNameLink person={issue.data.assignee} />
+                  ) : undefined,
+                },
+                {
+                  label: 'Reporter',
+                  value: issue.data?.reporter ? (
+                    <UserNameLink person={issue.data.reporter} />
+                  ) : undefined,
+                },
                 {label: 'Story Points', value: issue.data?.storyPoints?.toString()},
                 {label: 'Labels', value: issue.data?.labels?.join(', ') || undefined},
               ]}

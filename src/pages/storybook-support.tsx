@@ -16,8 +16,13 @@ import {
   storyRecentProjects,
 } from './storybook-fixtures'
 
-/** Which mocked Jira endpoints should fail (bootstrap, project, issue, or none). */
-export type JiraStoryMode = 'happy' | 'bootstrap-error' | 'project-error' | 'issue-error'
+/** Which mocked Jira endpoints should fail (bootstrap, project, issue, user search, or none). */
+export type JiraStoryMode =
+  | 'happy'
+  | 'bootstrap-error'
+  | 'project-error'
+  | 'issue-error'
+  | 'user-error'
 /** How to pre-seed recent project and issue lists in localStorage mocks. */
 export type StoryRecentsMode = 'none' | 'projects' | 'issues' | 'both'
 /** Synthetic `from=` query on dashboard/settings URLs for deep-link demos. */
@@ -66,6 +71,12 @@ function getSearchIssues(jql: string | null, projectDataset: ProjectStoryDataset
 
   const base = [...storyProjectIssues]
 
+  const assigneeAccountMatch = jql.match(/\bassignee\s*=\s*"([^"]+)"/)
+  if (assigneeAccountMatch && !jql.includes('currentUser()')) {
+    const accountId = assigneeAccountMatch[1]
+    return base.filter(issue => issue.fields.assignee?.accountId === accountId)
+  }
+
   if (jql.includes('NOT status="Done"')) {
     return base.filter(issue => issue.fields.status.name !== 'Done')
   }
@@ -106,6 +117,26 @@ function makeFetch(
 
     if (requestUrl.pathname === '/rest/api/3/field') {
       return makeResponse(storyFieldDefinitions)
+    }
+
+    if (requestUrl.pathname === '/rest/api/3/user/search') {
+      if (mode === 'user-error') {
+        return makeResponse([])
+      }
+      const query = (requestUrl.searchParams.get('query') || '').trim().toLowerCase()
+      if (query === storyCurrentUser.emailAddress?.toLowerCase() || query.includes('brian@')) {
+        return makeResponse([storyCurrentUser])
+      }
+      if (query.includes('toney')) {
+        return makeResponse([
+          {
+            accountId: 'toney-user',
+            displayName: 'Toney Sebastian',
+            emailAddress: 'toney@example.com',
+          },
+        ])
+      }
+      return makeResponse([])
     }
 
     if (mode === 'project-error' && requestUrl.pathname.startsWith('/rest/api/3/project/')) {
@@ -254,4 +285,14 @@ export function getProjectRouteMatch(projectKey: string, filter: ProjectStoryFil
   if (filter === 'todo') urlParams.jql = 'status="To Do"'
   if (filter === 'currentUser') urlParams.jql = 'assignee=currentUser()'
   return makeRouteMatch(`/j-lite/projects/${projectKey}`, urlParams)
+}
+
+/** In-app user page path with URL-encoded email. */
+export function buildUserPath(email: string) {
+  return `/j-lite/users/${encodeURIComponent(email)}`
+}
+
+/** `RouteMatch` for `/j-lite/users/:email` with decoded email in `urlParams`. */
+export function getUserRouteMatch(email: string) {
+  return makeRouteMatch(buildUserPath(email), {email})
 }
