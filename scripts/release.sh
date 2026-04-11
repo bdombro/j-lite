@@ -1,17 +1,55 @@
 #!/usr/bin/env bash
 # Resolve version (explicit tag or patch|minor|major from GitHub latest), zip dist/, create gh release.
+# GitHub target: repo inferred from branch.<current>.remote (falls back to origin), not gh's default alone.
 # Run from repo root after `just build` (or via `just release …`).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+# Target the GitHub repo for this branch's configured remote (not only origin).
+branch="$(git branch --show-current 2>/dev/null || true)"
+[[ -z "${branch}" ]] && {
+  echo "release.sh: detached HEAD; checkout a branch first." >&2
+  exit 1
+}
+remote="$(git config --get "branch.${branch}.remote" || true)"
+[[ -z "${remote}" ]] && remote="origin"
+url="$(git remote get-url "${remote}" 2>/dev/null)" || {
+  echo "release.sh: could not read URL for remote '${remote}'." >&2
+  exit 1
+}
+url="${url%.git}"
+gh_host=""
+gh_repo=""
+if [[ "$url" =~ ^git@([^:]+):(.+)$ ]]; then
+  gh_host="${BASH_REMATCH[1]}"
+  gh_repo="${BASH_REMATCH[2]}"
+elif [[ "$url" =~ ^https?:// ]]; then
+  rest="${url#*://}"
+  rest="${rest#*@}"
+  gh_host="${rest%%/*}"
+  gh_repo="${rest#*/}"
+  gh_repo="${gh_repo%%\?*}"
+fi
+[[ -z "${gh_repo}" ]] && {
+  echo "release.sh: cannot parse GitHub owner/repo from remote '${remote}': ${url}" >&2
+  exit 1
+}
+if [[ "$gh_host" == "github.com" || "$gh_host" == "ssh.github.com" ]]; then
+  unset GH_HOST
+else
+  export GH_HOST="${gh_host}"
+fi
+export GH_REPO="${gh_repo}"
+echo "release.sh: GitHub repo ${GH_REPO}${GH_HOST:+ (${GH_HOST})} (git remote: ${remote})" >&2
+
 ver_raw="${1:?usage: release.sh <version | patch | minor | major>}"
 
 case "$ver_raw" in
   patch|minor|major)
     bump="$ver_raw"
-    repo="$(gh repo view --json nameWithOwner -q .nameWithOwner)"
+    repo="${GH_REPO}"
     latest="$(gh api "repos/${repo}/releases/latest" --jq .tag_name 2>/dev/null || true)"
     if [[ -z "${latest:-}" ]]; then
       case "$bump" in
